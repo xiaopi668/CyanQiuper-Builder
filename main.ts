@@ -1,6 +1,6 @@
 import { WSServer, Version } from "mcpews";
 import { WebSocketServer as JWS } from "ws";
-import Session from "./src/session";
+import Session, { LOCAL_TOKEN } from "./src/session";
 import { parseMcStructure, structureCommands, ParsedStructure } from "./src/structure";
 import { parseStructureFile } from "./src/formats";
 import { repairMcStructure } from "./src/structure-repair";
@@ -900,7 +900,31 @@ if (process.env.FB_USERS_FILE && process.env.FB_OWNER_UID) {
     } catch {}
   }, 60_000);
 }
-log(`WS 服务已启动：ws://127.0.0.1:${WS_PORT}（协议版本 ${WS_VERSION}）`);
+/** 从底层 ws 服务反查真实监听地址（mcpews 的 WSServer 不暴露 host 配置） */
+function describeBind(srv: WSServer): { host: string; wildcard: boolean } {
+  try {
+    const addr = (srv as any).server?.address?.();
+    if (addr && typeof addr === "object") {
+      const host = String(addr.address || "");
+      return { host, wildcard: host === "0.0.0.0" || host === "::" };
+    }
+  } catch {}
+  return { host: "?", wildcard: false };
+}
+
+const bind = describeBind(server);
+const bindDisplay = bind.host.includes(":") ? `[${bind.host}]` : bind.host;
+log(`WS 服务已启动：ws://${bindDisplay}:${WS_PORT}（协议版本 ${WS_VERSION}）`);
+if (bind.wildcard) {
+  log(
+    `监听 ${bindDisplay}（通配地址）：局域网/公网设备也能连到 ${WS_PORT}，这些连接执行任何命令前必须先 --login 验证`
+  );
+}
+if (!process.env.FB_USERS_FILE) {
+  log(
+    `外部连接令牌：${LOCAL_TOKEN}（游戏内发 --login ${LOCAL_TOKEN}；本机 127.0.0.1 连接免验证）`
+  );
+}
 
 server.on("client", ({ session, request }) => {
   const address = `${request.socket.remoteAddress}:${request.socket.remotePort}`;
@@ -924,7 +948,7 @@ server.on("client", ({ session, request }) => {
   }
   connRate.set(ip, rec);
   totalConnections++;
-  const s = Session.create(session);
+  const s = Session.create(session, request.socket.remoteAddress);
   s.address = address;
   sessions.set(s, { address, connectedAt: Date.now() });
   log(`游戏已连接：${address}（当前会话 ${sessions.size} 个）`);

@@ -11,6 +11,42 @@ function clockUtc8(): string {
   return new Date(Date.now() + 8 * 3600 * 1000).toISOString().slice(11, 19);
 }
 
+/**
+ * 未配置用户库（`FB_USERS_FILE`）时使用的本机令牌。
+ *
+ * 本地单机跑的时候，游戏通常就在同一台机器上（回环地址），没必要每次都验证；
+ * 但只要有**外部**连接进来，就必须先证明身份，否则任何能访问 WS 端口的人都能
+ * 在宿主进程里执行代码。
+ *
+ * 令牌在服务启动日志里打印一次，也可以用 `FB_LOCAL_TOKEN` 固定下来。
+ */
+const LOCAL_TOKEN =
+  (process.env.FB_LOCAL_TOKEN || "").trim() ||
+  crypto.randomBytes(9).toString("base64url");
+
+/** 回环地址判定（IPv4 / IPv6 / IPv4-mapped IPv6） */
+function isLoopback(address?: string): boolean {
+  if (!address) return false;
+  const addr = address.replace(/^::ffff:/i, "");
+  return addr === "::1" || addr === "127.0.0.1" || addr.startsWith("127.");
+}
+
+/**
+ * 是否需要游戏内 `--login` 验证。
+ *
+ * 优先级：
+ *   1. `FB_ALLOW_ANON=1`  → 显式放开，任何来源都免验证（旧行为，自行承担风险）
+ *   2. 设置了 `FB_USERS_FILE` → 托管站模式，任何来源都要令牌
+ *   3. `FB_REQUIRE_AUTH=1` → 本机也强制验证
+ *   4. 默认 → 本机回环免验证，外部（手机 / 别的电脑）必须 `--login` 本机令牌
+ */
+function resolveRequireAuth(remoteAddress?: string): boolean {
+  if (process.env.FB_ALLOW_ANON === "1") return false;
+  if (process.env.FB_USERS_FILE) return true;
+  if (process.env.FB_REQUIRE_AUTH === "1") return true;
+  return !isLoopback(remoteAddress);
+}
+
 type Setting = {
   block: string;
   origin: V.Vec3;
@@ -32,14 +68,15 @@ export default class Session {
   gameProps: any = null;
   gamePropsAt = 0;
   private capturedOnce = false;
-  /** 游戏内登录认证：连接后必须 --login 终端令牌 验证 */
+  /** 游戏内登录认证：外部连接必须 --login 令牌 验证 */
   authUser: { id: string; username: string } | null = null;
   authAttempts = 0;
-  readonly requireAuth = !!process.env.FB_USERS_FILE;
+  readonly requireAuth: boolean;
   readonly ownerUid = process.env.FB_OWNER_UID || "";
   private authTimer: NodeJS.Timeout | null = null;
-  constructor(session: ServerSession) {
+  constructor(session: ServerSession, remoteAddress?: string) {
     this.session = session;
+    this.requireAuth = resolveRequireAuth(remoteAddress);
     this.setting = {
       block: "minecraft:iron_block",
       origin: Vec3(0, 0, 0),
@@ -59,13 +96,20 @@ export default class Session {
     if (!handshaking) ready();
   }
 
-  static create(session: ServerSession) {
-    return new Session(session);
+  static create(session: ServerSession, remoteAddress?: string) {
+    return new Session(session, remoteAddress);
+  }
+
+  /** 需要验证时给玩家的提示语：托管站看用户中心，单机看启动日志 */
+  private get authHint(): string {
+    return process.env.FB_USERS_FILE
+      ? "§e请发送 §f--login 终端令牌 §e完成验证（令牌在用户中心「结构导入终端」里，12 小时有效）"
+      : "§e请发送 §f--login 令牌 §e完成验证（令牌在服务启动日志里，也可用 FB_LOCAL_TOKEN 固定）";
   }
 
   welcome() {
     if (this.requireAuth) {
-      this.broadcast("欢迎使用 CyanQiuper！请先在聊天框发送 --login 终端令牌 完成验证");
+      this.broadcast("欢迎使用 CyanQiuper！检测到外部连接，请先在聊天框发送 --login 令牌 完成验证");
     } else {
       this.broadcast("欢迎使用 CyanQiuper！输入 --help 查看命令，-pos() 定位，-plot(sphere(3,0)) 生成");
     }
@@ -313,7 +357,7 @@ export default class Session {
     }
     const prompt = () => {
       if (!this.authUser) {
-        this.chat("§e请发送 §f--login 终端令牌 §e完成验证（令牌在用户中心「结构导入终端」里，12 小时有效）");
+        this.chat(this.authHint);
       }
     };
     prompt();
@@ -349,6 +393,18 @@ export default class Session {
     }
     const owner = this.ownerUid ? users.find((u) => u.id === this.ownerUid) : null;
     const matched = users.find((u) => u.panelToken === token);
+
+    // 未配置用户库的单机部署：外部连接用启动日志里打印的本机令牌验证
+    if (!process.env.FB_USERS_FILE && token === LOCAL_TOKEN) {
+      this.authUser = { id: this.ownerUid || "local", username: "local" };
+      this.clearAuthTimers();
+      this.chat("§a验证成功（本机令牌），现在可以执行命令了。");
+      console.log(
+        `[${clockUtc8()}] [认证] 外部会话已用本机令牌验证：${this.address || "?"}`
+      );
+      return;
+    }
+
     let ok = false;
     if (owner && matched && owner.id === matched.id) {
       ok = true;
@@ -358,7 +414,11 @@ export default class Session {
     if (!ok) {
       this.authAttempts++;
       const left = Math.max(0, 5 - this.authAttempts);
-      this.chat(`§c终端令牌无效（还可尝试 ${left} 次），请到用户中心复制最新令牌`);
+      this.chat(
+        process.env.FB_USERS_FILE
+          ? `§c终端令牌无效（还可尝试 ${left} 次），请到用户中心复制最新令牌`
+          : `§c令牌无效（还可尝试 ${left} 次），请查看服务启动日志里的本机令牌`
+      );
       if (this.authAttempts >= 5) {
         this.chat("§c错误次数过多，连接已断开");
         try { this.session.disconnect(); } catch {}
@@ -371,10 +431,14 @@ export default class Session {
       return;
     }
     this.authUser = { id: ownerUser.id, username: ownerUser.username };
-    if (this.authTimer) { clearTimeout(this.authTimer); this.authTimer = null; }
-    if (this.authReminder) { clearInterval(this.authReminder); this.authReminder = null; }
+    this.clearAuthTimers();
     this.chat(`§a验证成功，欢迎 ${ownerUser.username}！现在可以上传结构并开始导入了。`);
     console.log(`[${clockUtc8()}] [认证] 会话已绑定用户 ${ownerUser.username}（终端令牌）`);
+  }
+
+  private clearAuthTimers() {
+    if (this.authTimer) { clearTimeout(this.authTimer); this.authTimer = null; }
+    if (this.authReminder) { clearInterval(this.authReminder); this.authReminder = null; }
   }
 
   /** 发送一条不带时间戳的聊天消息 */
@@ -408,3 +472,9 @@ export default class Session {
     this.session.sendCommand(tell_raw("@a", ...message.map((m) => `§e${m}`)));
   }
 }
+
+/** 供 main.ts 在启动日志里提示外部连接用的本机令牌 */
+export { LOCAL_TOKEN };
+
+/** @internal 供 tools/check-sandbox.ts 自测使用 */
+export { isLoopback, resolveRequireAuth };

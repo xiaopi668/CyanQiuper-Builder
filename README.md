@@ -8,6 +8,13 @@ Websocket based Minecraft Bedrock Structure Generator.
 Currently a port of [Voxel Geometry](https://github.com/CAIMEOX/VoxelGeometry.git) in WebSocket.
 There is also a version using gametest framework (ScriptAPI) in [here](https://github.com/LoveCouple/VoxelGeometryMC).
 
+> **安全提示**
+>
+> 聊天栏 `-` 命令会在服务端执行 JavaScript。沙箱已改用 `node:vm` 独立上下文（拿不到 `process` / `require`，禁用字符串构造，单条命令默认 5 秒超时），但**不是完整隔离** —— 详见 [DEV.md](./DEV.md) 第 10 节。
+>
+> 认证默认值：本机（`127.0.0.1`）连接免验证；**局域网/公网设备连进来必须先发 `--login <令牌>`**，令牌在服务启动日志里打印，也可以用 `FB_LOCAL_TOKEN` 固定。要让所有来源都免验证（旧行为）：`FB_ALLOW_ANON=1`。
+
+
 ## Run the server
 
 Install the dependencies by `pnpm i` or `npm i` and then execute the server by:

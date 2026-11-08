@@ -26,7 +26,7 @@ src/
   structure-repair.ts 损坏 .mcstructure 修补
   formats.ts         多格式识别
   nbt.ts / nbt-write.ts / java-nbt.ts  NBT 读写
-  sandbox.ts         eval 沙箱
+  sandbox.ts         node:vm 命令沙箱（隔离 + 超时）
   effect.ts / utils.ts
 admin/  site/        前端静态资源
 tools/               部署/测试/补丁脚本（开发用，不参与运行）
@@ -117,6 +117,7 @@ FB_EMAIL_VERIFY=0 npm run site   # 免邮箱验证注册（本地调试）
 - systemd：`cyanqiuper-site.service`（站点）、`cyanqiuper.service`（WS 单实例）、`cyanqiuper-netease.service`（可选）
 - nginx：443 → `127.0.0.1:11455`；WS 端口直连玩家（需安全组/防火墙放行）
 - 环境变量：`FB_SITE_PORT/HOST`、`FB_LOG_DIR`、`FB_CONTROL_PORT`、`FB_EMAIL_VERIFY`、`FB_IMPORT_LIMIT`、`FB_MARKET_ADMIN_TOKEN`、`FB_NETEASE_*`
+- 安全相关：`FB_LOCAL_TOKEN`（未配用户库时的外部连接令牌，默认启动时随机生成并打印）、`FB_ALLOW_ANON=1`（放开匿名，等同旧行为）、`FB_REQUIRE_AUTH=1`（本机也强制验证）、`FB_SANDBOX_TIMEOUT`（单条命令执行上限，默认 5000ms）
 
 ## 9. 代码约定
 
@@ -128,7 +129,7 @@ FB_EMAIL_VERIFY=0 npm run site   # 免邮箱验证注册（本地调试）
 
 ## 10. 扩展建议
 
-- 插件执行沙箱：在 `src/sandbox.ts` 增加只读 API 白名单，禁止 `network/fs/process`
+- ~~插件执行沙箱~~：已在 `src/sandbox.ts` 用 `node:vm` 隔离（拿不到 `process`/`require`，禁用字符串构造，5s 执行超时）。**仍未做的是完整隔离**：注入的 `plot`/`setBlocks`/`session` 是宿主对象，理论上可顺原型链摸到宿主 `Function`；要彻底解决需把执行搬进 `worker_threads` 或子进程
 - 订单/提现：可新增 `site-data/payouts.json` 与后台结算页
 - 队列持久化：将 `IMPORT_QUEUE` 落盘，站点重启后恢复
 - 网易多账号：每账号独立机器人目录 + 独立 `netease-service` 端口（124xx）

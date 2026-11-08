@@ -8,7 +8,8 @@
     "start:node": "tsx main.ts",
     "ws": "tsx main.ts",
     "admin": "tsx admin-server.ts",
-    "set-password": "node tools/set-password.mjs"
+    "set-password": "node tools/set-password.mjs",
+    "check:sandbox": "tsx tools/check-sandbox.ts"
   },
   "repository": {
     "type": "git",

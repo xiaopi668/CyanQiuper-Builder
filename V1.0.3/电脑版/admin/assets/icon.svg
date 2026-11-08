@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="512" height="512" role="img" aria-label="CyanQiuper">
+<title>CyanQiuper</title>
+<rect width="100" height="100" rx="23" fill="#143F47"/>
+<g>
+  <polygon points="28.00,55.00 41.50,61.75 28.00,68.50 14.50,61.75" fill="#7FD3D8"/>
+  <polygon points="14.50,61.75 28.00,68.50 28.00,81.30 14.50,74.55" fill="#5FBDC6"/>
+  <polygon points="41.50,61.75 28.00,68.50 28.00,81.30 41.50,74.55" fill="#2E9CA8"/>
+  <polygon points="45.50,42.50 59.00,49.25 45.50,56.00 32.00,49.25" fill="#FFFFFF"/>
+  <polygon points="32.00,49.25 45.50,56.00 45.50,68.80 32.00,62.05" fill="#E8FAFC"/>
+  <polygon points="59.00,49.25 45.50,56.00 45.50,68.80 59.00,62.05" fill="#7FD3D8"/>
+  <polygon points="63.00,30.00 76.50,36.75 63.00,43.50 49.50,36.75" fill="#FFFFFF"/>
+  <polygon points="49.50,36.75 63.00,43.50 63.00,56.30 49.50,49.55" fill="#FFFFFF"/>
+  <polygon points="76.50,36.75 63.00,43.50 63.00,56.30 76.50,49.55" fill="#7FD3D8"/>
+  <rect x="8.50" y="70.00" width="6.20" height="6.20" rx="1.36" fill="#2E9CA8"/>
+  <rect x="3.00" y="77.50" width="4.00" height="4.00" rx="0.88" fill="#2E9CA8"/>
+</g>
+</svg>

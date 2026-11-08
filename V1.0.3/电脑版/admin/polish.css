@@ -1,0 +1,230 @@
+/* ===== 管理页视觉对齐补丁（统一间距/控件尺寸/栅格） ===== */
+:root{
+  --ui-gap:16px;
+  --ui-radius:12px;
+  --ui-ctrl:32px;
+  --ui-line:#1d2530;
+}
+
+/* 顶栏：品牌 / 状态 / 操作三段，单行对齐 */
+header{
+  display:flex;align-items:center;gap:12px;flex-wrap:nowrap;
+  height:64px;padding:0 20px;
+}
+header .brand{gap:10px;flex:0 0 auto}
+header .brand img{width:24px;height:24px}
+header .brand .name{font-size:15px;letter-spacing:.01em}
+header .brand .sub{font-size:12px;color:var(--muted,#8b98ab)}
+header .badges{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+header .pill{height:26px;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;padding:0 10px;
+  font-size:12px;border-radius:999px}
+header .clock{font-size:12px;color:var(--muted,#8b98ab);white-space:nowrap}
+header .clock b{font-variant-numeric:tabular-nums}
+header .spacer{flex:1 1 auto;min-width:8px}
+header .conn{display:flex;align-items:center;gap:8px;flex:0 1 auto;min-width:0}
+header .hint{font-size:12px;color:var(--muted,#8b98ab);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+header .hint b{font-family:ui-monospace,Consolas,monospace;font-size:11.5px}
+header .actions{display:flex;align-items:center;gap:6px;flex:0 0 auto}
+header .btn.small{padding:0 10px;font-size:12px}
+
+/* 按钮统一 */
+.btn{height:var(--ui-ctrl);padding:0 13px;border-radius:8px;font-size:12.5px;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;line-height:1;white-space:nowrap}
+.btn.small{height:30px;padding:0 11px;font-size:12.5px}
+
+/* 主体栅格 */
+main{display:grid;grid-template-columns:minmax(330px,360px) minmax(0,1fr);
+  gap:var(--ui-gap);padding:var(--ui-gap) 20px 28px;align-items:start;max-width:1680px;margin:0 auto}
+main > .col{display:flex;flex-direction:column;gap:var(--ui-gap);min-width:0}
+
+/* 区块 */
+.panel{padding:16px 18px;border-radius:var(--ui-radius)}
+.panel > h2{font-size:12.5px;letter-spacing:.06em;color:var(--muted,#8b98ab);
+  margin:0 0 12px;font-weight:600;display:flex;align-items:center;gap:8px}
+.panel > h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--ui-line),transparent)}
+
+/* 键值对：固定标签列 + 值列左对齐 */
+.kv{display:grid;grid-template-columns:108px minmax(0,1fr);gap:0;margin:0}
+.kv dt{font-size:12.5px;color:var(--muted,#8b98ab);padding:7px 10px 7px 0;border-bottom:1px solid rgba(255,255,255,.045);white-space:nowrap}
+.kv dd{margin:0;font-size:12.5px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.045);
+  word-break:break-all;text-align:left;font-variant-numeric:tabular-nums}
+.kv dt:last-of-type,.kv dd:last-of-type{border-bottom:none}
+
+/* 玩家信息三块 */
+.player{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.player .box{padding:10px 12px;border-radius:10px}
+.player .k{font-size:11.5px;color:var(--muted,#8b98ab);margin-bottom:4px}
+.player .v{font-size:13.5px;font-family:ui-monospace,Consolas,monospace;word-break:break-all}
+
+/* 设置行：文件选择/按钮同一基线 */
+.setting-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.setting-row input[type=file]{height:var(--ui-ctrl);padding:4px 8px;border-radius:8px;font-size:12px;max-width:100%}
+
+/* 日志面板 */
+.logs-panel{display:flex;flex-direction:column;min-height:0}
+.logs-toolbar{display:flex;align-items:center;gap:8px;row-gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.logs-toolbar .toggle:first-of-type{margin-left:auto}
+.logs-toolbar select,.logs-toolbar input[type=search],.logs-toolbar input[type=text]{
+  height:30px;padding:0 10px;border-radius:8px;font-size:12.5px}
+.logs-toolbar input[type=search],.logs-toolbar input[type=text]{flex:0 1 220px;min-width:140px}
+.logs-toolbar .toggle{height:30px;display:inline-flex;align-items:center;gap:6px;font-size:12.5px}
+
+.log-list{font-family:ui-monospace,Consolas,monospace;font-size:12px;line-height:1.75;
+  padding:10px 12px;border-radius:10px;overflow:auto;flex:1 1 auto;min-height:280px}
+.log-list .row{display:grid;grid-template-columns:64px minmax(0,1fr);gap:10px;align-items:start}
+.log-list .row .src{color:var(--muted,#8b98ab);font-size:11.5px}
+.log-list .row .msg{word-break:break-word}
+
+/* 控制台输入 */
+.cmdbar{display:flex;gap:8px;align-items:center;margin-top:10px}
+.cmdbar input{flex:1 1 auto;height:34px;padding:0 12px;border-radius:9px;font-size:12.5px}
+.cmdbar .btn{height:34px;flex:0 0 auto}
+
+/* 其它杂项对齐 */
+.log-info{font-size:12px;color:var(--muted,#8b98ab);line-height:1.7}
+.raw-info{font-size:11.5px;line-height:1.7;padding:10px 12px;border-radius:10px}
+details summary{list-style:none}
+details summary::-webkit-details-marker{display:none}
+details summary::before{content:"▸ ";color:var(--muted,#8b98ab)}
+details[open] summary::before{content:"▾ "}
+
+/* 滚动条 */
+*::-webkit-scrollbar{width:10px;height:10px}
+*::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:999px;border:2px solid transparent;background-clip:padding-box}
+*::-webkit-scrollbar-track{background:transparent}
+
+/* 窄屏折叠为单列 */
+@media (max-width:1180px){
+  main{grid-template-columns:1fr}
+  header{flex-wrap:wrap;height:auto;padding:12px 16px;row-gap:8px}
+  header .spacer{display:none}
+  header .conn{order:9;flex:1 1 100%}
+  header .actions{order:8}
+}
+
+/* 宽屏才显示连接提示，保证右侧按钮不被挤出 */
+@media (max-width:1560px){ header .hint{display:none} }
+@media (max-width:1360px){ header .conn{display:none} }
+@media (max-width:1200px){ header{flex-wrap:wrap;height:auto;padding:10px 16px;row-gap:8px} header .spacer{display:none} header .actions{order:9} }
+
+/* 日志工具条：信息文本省略，按钮保持一行 */
+.logs-toolbar .log-info{max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.logs-toolbar select{max-width:150px}
+.logs-toolbar .toggle{margin-left:0}
+.logs-toolbar .toggle:first-of-type{margin-left:auto}
+.logs-toolbar .btn{flex:0 0 auto}
+
+/* 顶栏在中等宽度下精简次要按钮，保证退出登录可见 */
+@media (max-width:1640px){ header #btn-copy{display:none} }
+@media (max-width:1500px){ header #btn-theme{display:none} }
+@media (max-width:1420px){ header .clock{display:none} }
+
+/* 日志栏单行容纳全部按钮 */
+.logs-toolbar select{max-width:132px}
+.logs-toolbar input[type=search],.logs-toolbar input[type=text]{flex:0 1 168px;min-width:120px}
+.logs-toolbar .log-info{max-width:168px}
+.logs-toolbar .btn.small{padding:0 9px}
+.logs-toolbar .toggle{font-size:12px}
+
+/* ===== 登录页对齐 ===== */
+body > form.card{width:min(380px,92vw);padding:34px 30px 26px;border-radius:16px}
+body > form.card .logo{display:block;width:56px;height:56px;object-fit:contain;margin:0 auto 14px;border-radius:14px}
+body > form.card .sub{font-size:12px;letter-spacing:.2em;text-align:center;color:var(--muted,#8b98ab);margin-bottom:18px}
+body > form.card .tip{text-align:center;font-size:13.5px;margin:0 0 20px}
+body > form.card label{display:block;font-size:12px;margin:0 0 6px;color:var(--muted,#8b98ab)}
+body > form.card input{width:100%;height:44px;border-radius:10px;padding:0 14px;font-size:14px}
+body > form.card #btn{width:100%;height:44px;border-radius:10px;margin-top:14px;font-size:14px;font-weight:600}
+body > form.card .err{margin-top:10px;text-align:center;min-height:18px;font-size:12.5px}
+body > form.card .foot{margin:16px auto 0;max-width:280px;font-size:11.5px;line-height:1.65;text-align:center;color:var(--muted,#8b98ab)}
+body > form.card .theme-btn{margin-top:16px;height:32px;padding:0 14px;border-radius:8px;font-size:12px;align-self:center}
+
+/* ===== 纯黑白主题 ===== */
+html[data-theme="dark"]{
+  --bg:#000; --panel:#050505; --panel-2:#0b0b0b; --panel-3:#141414;
+  --line:#1c1c1c; --line-2:#272727;
+  --fg:#ffffff; --dim:#9a9a9a; --faint:#585858;
+}
+html[data-theme="light"]{
+  --bg:#ffffff; --panel:#ffffff; --panel-2:#f8f8f8; --panel-3:#f0f0f0;
+  --line:#e8e8e8; --line-2:#dadada;
+  --fg:#000000; --dim:#555555; --faint:#8c8c8c;
+}
+
+/* ===== 平板自适应 ===== */
+@media (max-width:1000px){
+  main{grid-template-columns:1fr;padding:12px 14px 22px;gap:12px}
+  header{height:auto;flex-wrap:wrap;row-gap:8px;padding:10px 14px}
+  header .spacer{display:none}
+  header .conn{order:9;flex:1 1 100%}
+  header .actions{order:8;flex-wrap:wrap}
+  .panel{padding:14px}
+  .kv{grid-template-columns:96px minmax(0,1fr)}
+  .logs-toolbar select,.logs-toolbar input[type=search]{flex:1 1 140px;max-width:none}
+  .logs-toolbar .log-info{order:9;flex:1 1 100%;max-width:none;white-space:normal}
+  .log-list{min-height:240px;max-height:56vh}
+}
+
+/* ===== 手机自适应 ===== */
+@media (max-width:640px){
+  body{font-size:14px}
+  header{padding:10px 12px;gap:8px}
+  header .brand .name{font-size:14px}
+  header .brand .sub{display:none}
+  header .badges{flex:1 1 100%;flex-wrap:wrap;gap:6px}
+  header .pill{height:24px;font-size:11.5px;padding:0 8px}
+  header .clock{display:none}
+  header .hint{font-size:11.5px;white-space:normal}
+  header .actions{flex:1 1 100%;justify-content:flex-end;gap:6px}
+  header .actions .btn{height:34px;font-size:12px;padding:0 10px}
+  main{padding:10px 12px 20px;gap:10px}
+  .panel{padding:12px}
+  .panel > h2{font-size:12px;margin-bottom:10px}
+  .kv{grid-template-columns:88px minmax(0,1fr)}
+  .kv dt,.kv dd{font-size:12px;padding:8px 0}
+  .player{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .player .box{padding:8px 9px}
+  .player .v{font-size:12.5px}
+  .setting-row{gap:6px}
+  .setting-row input[type=file]{flex:1 1 100%;height:36px}
+  .setting-row .btn{height:34px;padding:0 10px;font-size:12px}
+  .logs-toolbar{gap:6px}
+  .logs-toolbar select{flex:1 1 100%;max-width:none;height:36px}
+  .logs-toolbar input[type=search]{flex:1 1 100%;height:36px}
+  .logs-toolbar .toggle{height:34px;font-size:12px}
+  .logs-toolbar .btn.small{height:34px;padding:0 10px;font-size:12px}
+  .logs-toolbar .toggle:first-of-type{margin-left:0}
+  .log-list{font-size:11.5px;min-height:200px;max-height:48vh;padding:8px 10px}
+  .log-list .row{grid-template-columns:52px minmax(0,1fr);gap:8px}
+  .cmdbar input{height:38px;font-size:12.5px}
+  .cmdbar .btn{height:38px;padding:0 12px}
+  .raw-info{font-size:11px}
+  .log-info{font-size:11.5px}
+}
+
+/* ===== 手机：让整页可滚动（覆盖原来的 100vh 固定布局） ===== */
+@media (max-width:1000px){
+  html,body{height:auto !important;min-height:100vh !important;overflow:auto !important;display:block !important}
+  header{position:sticky;top:0;z-index:30;background:var(--panel)}
+  main{display:flex !important;flex-direction:column !important;height:auto !important;
+    min-height:0 !important;overflow:visible !important;padding:12px 14px 28px !important;gap:12px !important;
+    max-width:none}
+  .col{overflow:visible !important;min-height:0 !important;height:auto !important;gap:12px !important;padding-right:0}
+  .logs-panel{height:auto !important}
+  .log-list{max-height:60vh !important}
+}
+@media (max-width:640px){
+  main{padding:10px 12px 24px !important;gap:10px !important}
+  .col{gap:10px !important}
+  .log-list{max-height:52vh !important}
+}
+
+/* 主题切换按钮始终可见（手机/平板也要能切黑白） */
+@media (max-width:1500px){ header #btn-theme{display:inline-flex !important} }
+@media (max-width:1000px){
+  header .actions{justify-content:flex-end}
+  header #btn-copy{display:none !important}
+}
+@media (max-width:640px){
+  header .actions{justify-content:space-between}
+  header .actions .btn{flex:1 1 auto}
+}

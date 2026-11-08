@@ -1,0 +1,53 @@
+CyanQiuper 交付包（仓库根结构）
+生成时间：2026-11-08 15:27:30
+共 49 个文件
+================================================================
+admin-server.ts                                       40.5 KB
+ADMIN.md                                              24.2 KB
+cli.mjs                                               11.6 KB
+DEV.md                                                 6.9 KB
+main.ts                                               56.6 KB
+netease-service.ts                                    22.7 KB
+package-lock.json                                     18.0 KB
+package.json                                           1.8 KB
+qiuper-cli.bat                                         0.9 KB
+README.md                                              7.7 KB
+site-server.ts                                        71.5 KB
+start.bat                                              1.5 KB
+start.sh                                               1.0 KB
+stop.bat                                               0.5 KB
+上传说明.txt                                               1.5 KB
+安装依赖.bat                                               0.4 KB
+admin\astrbot.css                                     15.6 KB
+admin\index.html                                      71.7 KB
+admin\login.html                                       5.4 KB
+admin\midiplayer.js                                   23.5 KB
+admin\mp3tomidi.js                                    13.3 KB
+admin\pixelart.js                                     10.5 KB
+admin\pixeltext.js                                     6.8 KB
+admin\polish.css                                      11.4 KB
+admin\snowluma.css                                    11.8 KB
+admin\snowluma.js                                     12.6 KB
+admin\assets\apple-touch-icon.png                      6.3 KB
+admin\assets\favicon.png                               2.5 KB
+admin\assets\icon-512.png                             15.2 KB
+admin\assets\icon.svg                                  1.1 KB
+admin\assets\logo.png                                 35.6 KB
+admin\assets\logo.svg                                  1.4 KB
+docs\CyanQiuper CLI 使用说明.md                            3.0 KB
+docs\Fatalder移植说明.md                                   3.6 KB
+docs\MUSIC.md                                          6.0 KB
+docs\NETEASE_PROTOCOL.md                               3.7 KB
+docs\导入速度优化说明.md                                       3.1 KB
+src\effect.ts                                          0.8 KB
+src\formats.ts                                        18.4 KB
+src\java-nbt.ts                                        3.0 KB
+src\nbt-write.ts                                       1.7 KB
+src\nbt.ts                                             2.5 KB
+src\netease-bridge.ts                                  8.7 KB
+src\netease-protocol.ts                                4.2 KB
+src\sandbox.ts                                         0.6 KB
+src\session.ts                                        14.0 KB
+src\structure-repair.ts                                7.9 KB
+src\structure.ts                                       4.1 KB
+src\utils.ts                                           0.4 KB

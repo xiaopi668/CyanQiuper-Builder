@@ -1,0 +1,1444 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CyanQiuper 控制台</title>
+<link rel="icon" type="image/svg+xml" href="/assets/icon.svg" />
+<link rel="stylesheet" href="/astrbot.css" />
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-brand">
+      <img src="/assets/icon.svg" alt="CyanQiuper" />
+      <div><div class="t">CyanQiuper</div><div class="s">Console</div></div>
+    </div>
+    <div class="sb-group">总览</div>
+      <a class="nav-item" data-page="dashboard"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>仪表盘</span></a>
+      <a class="nav-item" data-page="structure"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v10"/><path d="M8 7l4-4 4 4"/><path d="M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg><span>结构导入</span></a>
+      <a class="nav-item" data-page="pixel"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/></svg><span>图片导入</span></a>
+      <a class="nav-item" data-page="pixeltext"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2"/><path d="M12 5v14"/><path d="M8 19h8"/></svg><span>像素字</span></a>
+      <a class="nav-item" data-page="music"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l10-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="16" cy="16" r="3"/></svg><span>音乐盒</span></a>
+      <a class="nav-item" data-page="netease"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"/><path d="M12 22v-6"/><path d="M4.9 4.9l4.2 4.2"/><path d="M14.9 14.9l4.2 4.2"/><path d="M2 12h6"/><path d="M16 12h6"/><path d="M4.9 19.1l4.2-4.2"/><path d="M14.9 9.1l4.2-4.2"/></svg><span>网易版</span></a>
+      <div class="sb-group">工作区</div>
+      <a class="nav-item" data-page="tasks"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11"/><path d="M9 12h11"/><path d="M9 18h11"/><path d="M4 6h.01M4 12h.01M4 18h.01"/></svg><span>任务队列</span></a>
+      <a class="nav-item" data-page="tools"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0 5 5L21 21H3l8.7-8.7a4 4 0 0 0 5-5z"/></svg><span>快捷操作</span></a>
+      <a class="nav-item" data-page="console"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v14H4z"/><path d="M7 9l3 3-3 3"/><path d="M13 15h4"/></svg><span>控制台</span></a>
+      <a class="nav-item" data-page="logs"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9 12h7M9 16h7"/></svg><span>日志</span></a>
+    <div class="sb-foot">
+      <span class="hint">CyanQiuper · Console · v1.0.3</span>
+    </div>
+  </aside>
+  <div class="overlay" id="overlay"></div>
+
+  <div class="main">
+    <div class="topbar">
+      <button class="menu-btn" id="menu-btn" aria-label="菜单">☰</button>
+      
+  <div class="badges">
+    <span class="pill" id="pill-ws"><span class="dot" id="dot-ws"></span><span id="pill-ws-text">正在检测服务…</span></span>
+    <span class="pill"><span class="dot" id="dot-game"></span><span id="pill-game-text">游戏未连接</span></span>
+    <span class="clock">北京时间（UTC+8） <b id="clock">--:--:--</b></span>
+  </div>
+  <div class="spacer"></div>
+  <div class="conn">
+    <span class="hint">游戏内输入：<b id="connect-cmd">/connect ws://…</b></span>
+    <button class="btn small ghost" id="btn-copy">复制地址</button>
+  </div>
+  <div class="actions">
+    <button class="btn small ghost" id="btn-theme" title="切换主题" aria-label="切换主题"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M4.6 12H2.4M21.6 12h-2.2M6.3 6.3 4.8 4.8M19.2 19.2l-1.5-1.5M17.7 6.3l1.5-1.5M4.8 19.2l1.5-1.5"/></svg></button>
+    <button class="btn small" id="btn-restart">重启服务</button>
+    <button class="btn small" id="btn-start">启动服务</button>
+    <button class="btn small" id="btn-stop">停止服务</button>
+    <button class="btn small ghost" id="btn-logout">退出登录</button>
+  </div>
+
+    </div>
+    <div class="content">
+      <section class="page active" data-page="dashboard" id="page-dashboard">
+        <div class="page-head"><div><h1>仪表盘</h1><div class="desc">服务状态、运行统计与玩家信息</div></div></div>
+        <div class="page-grid"><div class="stack"><section class="panel">
+      <h2>服务状态</h2>
+      <dl class="kv">
+        <dt>WebSocket 服务</dt><dd id="st-ws">—</dd>
+        <dt>监听地址</dt><dd id="st-ws-url">—</dd>
+        <dt>协议版本</dt><dd id="st-version">—</dd>
+        <dt>游戏连接</dt><dd id="st-session">—</dd>
+        <dt>会话加密</dt><dd id="st-encrypted">—</dd>
+        <dt>当前原点</dt><dd id="st-origin">—</dd>
+        <dt>网页服务</dt><dd id="st-web">—</dd>
+      </dl>
+    </section>
+<section class="panel">
+      <h2>游戏与玩家信息</h2>
+      <div class="player">
+        <div class="box"><div class="k">玩家</div><div class="v" id="pl-name">—</div></div>
+        <div class="box"><div class="k">坐标</div><div class="v" id="pl-pos">—</div></div>
+        <div class="box"><div class="k">维度</div><div class="v" id="pl-dim">—</div></div>
+      </div>
+      <dl class="kv" style="margin-top:12px">
+        <dt>客户端地址</dt><dd id="info-client">—</dd>
+        <dt>服务器公网 IP</dt><dd id="info-publicip">—</dd>
+        <dt>本机地址</dt><dd id="info-localip">—</dd>
+        <dt>游戏版本</dt><dd id="info-version">—</dd>
+        <dt>平台 / 类型</dt><dd id="info-platform">—</dd>
+        <dt>语言</dt><dd id="info-locale">—</dd>
+        <dt>游戏模式</dt><dd id="info-gamemode">—</dd>
+        <dt>朝向 / 实体</dt><dd id="info-rot">—</dd>
+        <dt>会话</dt><dd id="info-session">—</dd>
+        <dt>唯一标识</dt><dd id="info-ids">—</dd>
+      </dl>
+      <details style="margin-top:10px">
+        <summary class="log-info" style="cursor:pointer">展开完整原始信息（JSON）</summary>
+        <pre class="raw-info" id="info-raw">—</pre>
+      </details>
+      <div style="margin-top:10px; display:flex; gap:8px; align-items:center; flex-wrap:wrap">
+        <button class="btn small" id="btn-player">刷新玩家信息</button>
+        <span class="log-info" id="player-status">只读查询，不会传送玩家；在游戏里发一条消息后可读到版本/设备信息</span>
+      </div>
+    </section></div><div class="stack"><section class="panel">
+      <h2>运行统计</h2>
+      <div class="stats">
+        <div class="stat"><div class="n" id="n-commands">0</div><div class="k">命令执行</div></div>
+        <div class="stat"><div class="n" id="n-blocks">0</div><div class="k">已放置方块</div></div>
+        <div class="stat"><div class="n" id="n-messages">0</div><div class="k">聊天消息</div></div>
+        <div class="stat"><div class="n" id="n-errors">0</div><div class="k">错误</div></div>
+      </div>
+    </section></div></div>
+      </section>
+      <section class="page " data-page="structure" id="page-structure">
+        <div class="page-head"><div><h1>结构导入</h1><div class="desc">上传解析 → 放置 → 回读校验 → 补建</div></div></div>
+                  <section class="panel">
+      <h2>导入结构 / 投影文件</h2>
+      <div class="setting-row">
+        <input id="structure-file" type="file" accept=".mcstructure,.litematic,.schem,.schematic,.nbt" />
+        <button class="btn small" id="btn-structure-prepare">上传并解析</button>
+        <button class="btn small" id="btn-structure-clear">移除</button>
+        <button class="btn small" id="btn-structure-repair">修补文件</button>
+      </div>
+      <div class="log-info" style="margin-top:8px; white-space:normal">支持 .mcstructure / .litematic / .schem / .schematic / .nbt（投影文件会忽略方块状态）</div>
+<div class="log-info" id="structure-info" style="margin-top:8px; white-space:normal">未选择文件</div>
+      <div class="log-info" id="structure-repair-report" style="margin-top:6px; white-space:pre-wrap; display:none"></div>
+      <div style="margin-top:8px"><button class="btn small" id="btn-structure-download" style="display:none">下载修补后的文件</button></div>
+      <div style="margin-top:10px; display:flex; gap:8px; align-items:center; flex-wrap:wrap">
+        <span class="log-info">Y 偏移</span>
+        <input id="structure-offset" type="number" value="0" style="width:90px; background:var(--code-bg); border:1px solid var(--line-2); border-radius:8px; padding:6px 9px; font-family:var(--mono); outline:none" />
+        <button class="btn accent" id="btn-structure-build">开始生成</button>
+        <button class="btn" id="btn-structure-cancel">取消</button>
+        <button class="btn" id="btn-structure-rebuild">补建未完成方块</button>
+        <button class="btn" id="btn-structure-verify">完整性检查</button>
+        <button class="btn small" id="btn-structure-verify-deep">深度检查</button>
+      </div>
+      <div class="progress"><div class="progress-bar" id="structure-bar"></div></div>
+      <div class="log-info" id="structure-progress" style="margin-top:6px">—</div>
+    </section>
+      </section>
+      <section class="page " data-page="pixel" id="page-pixel">
+        <div class="page-head"><div><h1>图片导入</h1><div class="desc">上传图片 → 自动比例与配色 → 生成方块画并导入游戏</div></div></div>
+                  <section class="panel" id="panel-pixelart">
+      <h2>图片导入 · 图片转方块画</h2>
+      <div class="px-drop" id="px-drop">
+        <input id="px-file" type="file" accept="image/*" />
+        <div class="log-info" id="px-file-name" style="margin-top:6px">点击上传图片，或把图片拖到这里（支持 PNG / JPG / WebP）</div>
+      </div>
+      <div class="sl-form" style="margin-top:10px">
+        <div>
+          <div class="log-info">目标宽度（方块）</div>
+          <select id="px-width">
+            <option value="32">32 格</option>
+            <option value="48">48 格</option>
+            <option value="64" selected>64 格</option>
+            <option value="96">96 格</option>
+            <option value="128">128 格</option>
+            <option value="192">192 格</option>
+          </select>
+        </div>
+        <div>
+          <div class="log-info">方块调色板</div>
+          <select id="px-palette"></select>
+        </div>
+        <input id="px-name-input" class="full" type="text" placeholder="作品名称（可空，默认 pixelart-时间）" />
+        <input id="px-offset" type="number" placeholder="Y 偏移（可空）" />
+        <div class="sl-row" style="margin:0">
+          <button class="btn small ghost" id="px-convert">重新生成</button>
+          <button class="btn accent small" id="px-prepare">生成方块画</button>
+          <button class="btn small" id="px-build-now">一键生成并导入</button>
+        </div>
+      </div>
+      <div id="px-preview-wrap" style="display:none;margin-top:12px">
+        <div class="sl-sub">方块还原预览</div>
+        <canvas id="px-preview" style="width:100%;max-width:320px;image-rendering:pixelated;border-radius:8px;border:1px solid var(--sl-line)"></canvas>
+        <div class="log-info" id="px-stat" style="margin-top:6px"></div>
+        <div class="log-info" id="px-name" style="margin-top:4px"></div>
+        <div class="sl-row">
+          <button class="btn small" id="px-build">导入到游戏</button>
+        </div>
+      </div>
+    </section>
+      </section>
+            <section class="page " data-page="pixeltext" id="page-pixeltext">
+        <div class="page-head"><div><h1>像素字</h1><div class="desc">输入文字与字号，直接生成方块像素字</div></div></div>
+        <div class="stack">
+          <section class="panel">
+            <h2>文字生成 · 方块像素字</h2>
+            <div class="sl-form">
+              <textarea id="px-t-text" class="full" rows="3" placeholder="输入要生成的文字（支持多行，Ctrl+Enter 生成预览）" style="resize:vertical;padding:8px 10px"></textarea>
+              <div>
+                <div class="log-info">字号（像素）</div>
+                <select id="px-t-size">
+                  <option value="8">8 px（小）</option>
+                  <option value="12">12 px</option>
+                  <option value="16" selected>16 px</option>
+                  <option value="24">24 px</option>
+                  <option value="32">32 px</option>
+                  <option value="48">48 px（大）</option>
+                  <option value="64">64 px（特大）</option>
+                </select>
+              </div>
+              <div>
+                <div class="log-info">字体</div>
+                <select id="px-t-font">
+                  <option value="yahei" selected>微软雅黑</option>
+                  <option value="simhei">黑体</option>
+                  <option value="simsun">宋体</option>
+                  <option value="mono">等宽</option>
+                  <option value="impact">Impact（英文）</option>
+                </select>
+              </div>
+              <div>
+                <div class="log-info">前景方块</div>
+                <select id="px-t-color">
+                  <option value="white_concrete" selected>白色混凝土</option>
+                  <option value="black_concrete">黑色混凝土</option>
+                  <option value="yellow_concrete">黄色混凝土</option>
+                  <option value="red_concrete">红色混凝土</option>
+                  <option value="light_blue_concrete">淡蓝色混凝土</option>
+                  <option value="lime_concrete">黄绿色混凝土</option>
+                </select>
+              </div>
+              <div>
+                <div class="log-info">每像素方块数</div>
+                <select id="px-t-scale">
+                  <option value="1" selected>1（最清晰）</option>
+                  <option value="2">2（放大一倍）</option>
+                  <option value="3">3</option>
+                </select>
+              </div>
+              <div>
+                <label class="log-info" style="display:flex;align-items:center;gap:6px;margin-top:18px">
+                  <input id="px-t-bold" type="checkbox" checked style="width:auto" /> 加粗
+                </label>
+              </div>
+              <div>
+                <div class="log-info">Y 偏移</div>
+                <input id="px-t-offset" type="number" value="0" />
+              </div>
+              <input id="px-t-name" class="full" type="text" placeholder="作品名称（可空，默认 text-时间）" />
+            </div>
+            <div class="sl-row">
+              <button class="btn accent small" id="px-t-build-preview">生成预览</button>
+              <button class="btn small" id="px-t-generate">生成像素字</button>
+              <button class="btn small ghost" id="px-t-build">导入到游戏</button>
+            </div>
+            <div id="px-t-wrap" style="display:none;margin-top:14px">
+              <div class="sl-sub">方块还原预览</div>
+              <canvas id="px-t-preview" style="width:100%;max-width:640px;image-rendering:pixelated;border:1px solid var(--line);border-radius:9px;background:#0a0a0d"></canvas>
+              <div class="log-info" id="px-t-stat" style="margin-top:8px"></div>
+              <div class="log-info" id="px-t-info" style="margin-top:4px"></div>
+            </div>
+            <div class="log-info" style="margin-top:10px">
+              提示：字太小会糊，建议 16 px 以上；「每像素方块数」调大可以把字放得更大。生成后可在「结构导入」里补建或检查。
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="page " data-page="music" id="page-music">
+        <div class="page-head"><div><h1>音乐盒</h1><div class="desc">导入 MIDI / MP3 → 彩色音轨 → 游戏内播放（playsound + titleraw）</div></div></div>
+        <div class="page-grid">
+          <div class="stack">
+            <section class="panel">
+              <h2>导入音乐</h2>
+              <div class="setting-row">
+                <input id="mu-file" type="file" accept=".mid,.midi,.mp3,audio/midi,audio/mpeg" />
+                <button class="btn small accent" id="mu-import">上传并解析</button>
+                <button class="btn small" id="mu-clear">移除</button>
+              </div>
+              <div class="log-info" id="mu-name" style="margin-top:8px">未选择文件 · 支持 MIDI / MP3（MP3 会自动转成 MIDI）</div>
+              <div class="log-info" id="mu-info" style="margin-top:6px">—</div>
+              <div class="stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px">
+                <div class="stat"><div class="n" id="mu-s-notes" style="color:#62d0ff">0</div><div class="lab">音符数</div></div>
+                <div class="stat"><div class="n" id="mu-s-dur" style="color:#7ee0a3">0.0s</div><div class="lab">总时长</div></div>
+                <div class="stat"><div class="n" id="mu-s-lyrics" style="color:#f5c542">0</div><div class="lab">歌词行数</div></div>
+                <div class="stat"><div class="n" id="mu-s-sent" style="color:#b48cf2">0</div><div class="lab">已发送</div></div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <h2>音轨时间轴</h2>
+              <canvas id="mu-timeline" style="width:100%;height:150px;border-radius:10px;background:#0b0f17;display:block"></canvas>
+              <div class="progress" style="margin-top:12px"><div class="progress-bar" id="mu-bar" style="width:0%;background:linear-gradient(90deg,#3b82f6,#62d0ff,#7ee0a3)"></div></div>
+              <div class="log-info" id="mu-progress" style="margin-top:6px">0.0 / 0.0s（0%）</div>
+              <div class="setting-row" style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap; align-items:center">
+                <button class="btn accent small" id="mu-play">播放</button>
+                <button class="btn small" id="mu-stop">停止</button>
+                <label class="log-info" style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="mu-loop" checked /> 循环</label>
+                <label class="log-info" style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="mu-local" checked /> 本地试听</label>
+                <label class="log-info" style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="mu-sendgame" checked /> 发到游戏</label>
+                <label class="log-info" style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="mu-showtitle" checked /> 歌词/曲名（titleraw）</label>
+              </div>
+              <div class="setting-row" style="margin-top:8px; display:flex; gap:14px; flex-wrap:wrap; align-items:center">
+                <label class="log-info" style="display:flex; gap:8px; align-items:center">音量
+                  <input type="range" id="mu-volume" min="0" max="100" value="80" style="width:140px" />
+                </label>
+                <label class="log-info" style="display:flex; gap:8px; align-items:center">速度
+                  <select id="mu-rate" style="background:#14161d;color:#dbe6f5;border:1px solid #2a3040;border-radius:8px;padding:6px 10px">
+                    <option value="0.5">0.5x</option>
+                    <option value="0.75">0.75x</option>
+                    <option value="1" selected>1.0x</option>
+                    <option value="1.25">1.25x</option>
+                    <option value="1.5">1.5x</option>
+                    <option value="2">2.0x</option>
+                  </select>
+                </label>
+              </div>
+            </section>
+
+            <section class="panel">
+              <h2>MP3 转 MIDI（内置）</h2>
+              <div class="setting-row">
+                <input id="mp3-file" type="file" accept=".mp3,audio/*" />
+                <button class="btn small accent" id="mp3-convert">选择 MP3 并转换</button>
+                <button class="btn small" id="mp3-save">下载 .mid</button>
+                <button class="btn small" id="mp3-load">载入音乐盒</button>
+              </div>
+              <div class="log-info" id="mp3-status" style="margin-top:8px">上传 MP3 → 自动分析音高与节拍 → 生成 MIDI（单音旋律效果最好）</div>
+              <div class="progress" style="margin-top:10px"><div class="progress-bar" id="mp3-bar" style="width:0%;background:linear-gradient(90deg,#f5c542,#f28c5a,#ff7a7a)"></div></div>
+              <div class="stats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px">
+                <div class="stat"><div class="n" id="mp3-notes" style="color:#f5c542">0</div><div class="lab">识别音符</div></div>
+                <div class="stat"><div class="n" id="mp3-bpm" style="color:#f28c5a">—</div><div class="lab">估算 BPM</div></div>
+                <div class="stat"><div class="n" id="mp3-dur" style="color:#ff7a7a">0.0s</div><div class="lab">音频时长</div></div>
+              </div>
+            </section>
+          </div>
+
+          <div class="stack">
+            <section class="panel">
+              <h2>播放状态</h2>
+              <div id="mu-log" style="max-height:300px;overflow:auto;font-size:12px;line-height:1.8;color:#8fb2d0"></div>
+            </section>
+            <section class="panel">
+              <h2>说明</h2>
+              <div style="font-size:12px;color:#8ba4bd;line-height:1.9">
+                · 播放通过 <code>/playsound</code>，需要游戏已连接 WS 服务<br />
+                · 歌词/曲名通过 <code>/titleraw</code> 显示<br />
+                · 时间轴按音色上色：钢琴蓝 / 贝斯青 / 合成主音浅蓝 / 鼓绿<br />
+                · MP3 转换是「单音旋律提取」，和弦会被简化为一条主旋律<br />
+                · 服务器对指令频率有限制，密集曲子建议 0.75x 以下
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="page " data-page="netease" id="page-netease">
+        <div class="page-head"><div><h1>网易版</h1><div class="desc">机器人事件桥与多套进服配置</div></div></div>
+        <div class="page-grid"><div class="stack"><section class="panel" id="panel-account">
+      <h2>网络账号信息</h2>
+      <div class="log-info" style="margin-bottom:8px; white-space:normal">网易账号（机器人登录用）；只保存在本机，页面不回显密码</div>
+      <div class="sl-form">
+        <select id="acc-channel">
+          <option value="官方">官方（网易邮箱 / 手机号）</option>
+          <option value="渠道服">渠道服（渠道账号）</option>
+          <option value="令牌">令牌登录（已有登录令牌）</option>
+        </select>
+        <input id="acc-name" type="text" placeholder="账号：邮箱 / 手机号" />
+        <input id="acc-pass" type="password" placeholder="密码（已保存则留空表示不修改）" />
+        <input id="acc-note" class="full" type="text" placeholder="备注（可空，如：大号 / 小号）" />
+      </div>
+      <div class="sl-row">
+        <button class="btn accent small" id="acc-save">保存账号</button>
+        <button class="btn small ghost" id="acc-clear">清除</button>
+        <button class="btn small ghost" id="acc-toggle">显示密码</button>
+        <span class="log-info" id="acc-status">未配置</span>
+      </div>
+    </section><section class="panel" id="panel-profiles">
+      <h2>进服配置 · 多套房间</h2>
+      <div class="profile-list" id="profile-list"></div>
+      <div class="sl-sub">新建 / 编辑配置</div>
+      <div class="sl-form">
+        <input id="pf-name" type="text" placeholder="配置名称（如：我的租赁服）" />
+        <select id="pf-mode">
+          <option value="租赁服">租赁服</option>
+          <option value="联机大厅">联机大厅</option>
+          <option value="山头服">山头服</option>
+          <option value="本地联机">本地联机</option>
+        </select>
+        <input id="pf-room" type="text" placeholder="房间号 / 服务器号" />
+        <input id="pf-pass" type="password" placeholder="房间密码（可空）" />
+        <input id="pf-note" class="full" type="text" placeholder="备注（可空）" />
+      </div>
+      <div class="sl-row">
+        <button class="btn accent small" id="profile-save">保存配置</button>
+        <span class="log-info">「使用」会把连接参数复制到剪贴板并标记为当前配置</span>
+      </div>
+    </section></div><div class="stack"><section class="panel">
+      <h2>网易版（机器人 · 事件桥）</h2>
+      <div class="log-info" id="nte-status" style="margin-bottom:8px; white-space:normal">检测中…</div>
+      <div class="player">
+        <div class="box"><div class="k">机器人</div><div class="v" id="nte-name">—</div></div>
+        <div class="box"><div class="k">坐标</div><div class="v" id="nte-pos">—</div></div>
+        <div class="box"><div class="k">在线玩家</div><div class="v" id="nte-players">—</div></div>
+      </div>
+      <div class="setting-row" style="margin-top:10px">
+        <input id="nte-file" type="file" accept=".mcstructure,.litematic,.schem,.schematic,.nbt" />
+        <button class="btn small" id="btn-nte-prepare">上传并解析</button>
+        <button class="btn small accent" id="btn-nte-build">在网易服里导入</button>
+        <button class="btn small" id="btn-nte-cancel">取消</button>
+      </div>
+      <div class="log-info" id="nte-info" style="margin-top:8px; white-space:normal">未选择文件</div>
+      <div style="margin-top:8px; display:flex; gap:8px; align-items:center; flex-wrap:wrap">
+        <span class="log-info">Y 偏移</span>
+        <input id="nte-offset" type="number" value="0" style="width:90px; background:var(--code-bg); border:1px solid var(--line-2); border-radius:8px; padding:6px 9px; font-family:var(--mono); outline:none" />
+        <button class="btn small" id="btn-nte-verify">完整性检查</button>
+        <button class="btn small" id="btn-nte-pos">读取机器人坐标</button>
+      </div>
+      <div class="progress" style="margin-top:10px"><div class="progress-bar" id="nte-bar"></div></div>
+      <div class="log-info" id="nte-progress" style="margin-top:6px">—</div>
+      <div class="log-info" id="nte-last" style="margin-top:8px">—</div>
+    </section></div></div>
+      </section>
+      <section class="page " data-page="tasks" id="page-tasks">
+        <div class="page-head"><div><h1>任务队列</h1><div class="desc">命令 / 等待 / 结构导入 顺序执行</div></div></div>
+                  <section class="panel" id="panel-queue">
+      <h2>任务队列 · 顺序执行</h2>
+      <div class="queue-list" id="queue-list"></div>
+      <div class="sl-sub">添加任务</div>
+      <div class="sl-form">
+        <select id="q-type">
+          <option value="send">游戏指令（/开头）</option>
+          <option value="command">代码（JS eval）</option>
+          <option value="sleep">等待（秒）</option>
+          <option value="build">导入当前已解析结构</option>
+        </select>
+        <input id="q-text" type="text" placeholder="指令 / 代码 / 秒数" />
+        <input id="q-offset" type="number" placeholder="结构导入 Y 偏移（仅导入用，可空）" />
+        <div class="sl-row" style="margin:0">
+          <button class="btn accent small" id="queue-add">加入队列</button>
+        </div>
+      </div>
+      <div class="sl-row">
+        <button class="btn small" id="queue-start">开始执行</button>
+        <button class="btn small ghost" id="queue-stop">停止</button>
+        <button class="btn small ghost" id="queue-clear">清空</button>
+        <span class="log-info" id="queue-stat"></span>
+      </div>
+      <div class="log-info" style="margin-top:6px">执行时请保持本页打开；任务按顺序运行，失败会标记并继续下一条</div>
+    </section>
+      </section>
+      <section class="page " data-page="tools" id="page-tools">
+        <div class="page-head"><div><h1>快捷操作</h1><div class="desc">球体、圆盘、圆柱、墙、L 系统与常用方块</div></div></div>
+        <div class="page-grid"><div class="stack"><section class="panel">
+      <h2>快捷操作</h2>
+      <div class="quick">
+        <button class="btn small" data-code="pos()">定位坐标</button>
+        <button class="btn small" data-code="1+1">测试执行</button>
+        <button class="btn small" data-code="session.sendCommand(&quot;setblock ~ ~-1 ~ minecraft:gold_block&quot;)">脚下放金块</button>
+        <button class="btn small" data-code="session.sendCommand(&quot;setblock ~ ~-1 ~ air&quot;)">脚下清空</button>
+      </div>
+      <div style="height:10px"></div>
+      <div class="quick">
+        <button class="btn small" data-code="plot(sphere(5,0))">球体</button>
+        <button class="btn small" data-code="plot(circle(6,0))">圆盘</button>
+        <button class="btn small" data-code="plot(simple_equation(&quot;x*x+z*z<=9&quot;, -3, 3, 1))">圆柱</button>
+        <button class="btn small" data-code="plot(array_gen(12, 6, 2, 1, 1, 0))">墙</button>
+        <button class="btn small" data-code="plot(lsystem(&quot;X&quot;, {X:&quot;XFYFX+F+YFYFX-F-XFYFX&quot;, Y:&quot;YFXFY-F-XFYFX+F+YFYFX&quot;}, 2))">L 系统</button>
+      </div>
+    </section>
+<section class="panel">
+      <h2>常用方块</h2>
+      <div class="blocks" id="block-chips"></div>
+      <div style="height:10px"></div>
+      <div class="setting-row">
+        <input id="block-input" placeholder="minecraft:iron_block" spellcheck="false" />
+        <button class="btn" id="btn-block">保存默认方块</button>
+      </div>
+    </section></div><div class="stack"><section class="panel">
+      <h2>最近命令</h2>
+      <div class="recent" id="recent-list"><div class="empty">还没有执行过命令</div></div>
+    </section></div></div>
+      </section>
+      <section class="page " data-page="console" id="page-console">
+        <div class="page-head"><div><h1>控制台</h1><div class="desc">沙箱代码与游戏指令</div></div></div>
+                  <section class="panel">
+      <h2>控制台</h2>
+      <div class="console-out" id="console-out">
+        <div class="entry"><span class="cmd">支持任意沙箱 JavaScript，例如 plot(sphere(3,0))；以 / 开头则当作原生命令发送</span></div>
+      </div>
+      <div class="cmdbar">
+        <input id="cmd-input" placeholder="输入代码后回车执行，↑/↓ 翻历史" spellcheck="false" autocomplete="off" />
+        <button class="btn primary" id="btn-run">执行</button>
+      </div>
+    </section>
+      </section>
+      <section class="page " data-page="logs" id="page-logs">
+        <div class="page-head"><div><h1>日志</h1><div class="desc">实时日志、文件切换与搜索</div></div></div>
+                  <section class="panel logs-panel">
+      <h2>实时日志（直接读取 logs 目录下的日志文件）</h2>
+      <div class="logs-toolbar">
+        <select id="log-file"><option value="all">全部日志</option></select>
+        <input id="log-search" type="search" placeholder="搜索日志关键字…" />
+        <span class="log-info" id="log-info">—</span>
+        <label class="toggle"><input type="checkbox" id="log-pause" /> 暂停</label>
+        <label class="toggle"><input type="checkbox" id="log-scroll" checked /> 自动滚动</label>
+        <div class="spacer"></div>
+        <button class="btn small ghost" id="btn-log-refresh">刷新</button>
+        <button class="btn small ghost" id="btn-log-clear">清空</button>
+        <button class="btn small ghost" id="btn-log-download">下载</button>
+      </div>
+      <div class="log-list" id="log-list">
+        <div class="empty" id="log-empty">等待日志…</div>
+      </div>
+    </section>
+      </section>
+    </div>
+  </div>
+</div>
+<div id="sl-toast"></div>
+<script>
+(function () {
+  "use strict";
+
+  const $ = (id) => document.getElementById(id);
+  const TZ = "Asia/Shanghai";
+  const state = {
+    status: null,
+    currentFile: "all",
+    paused: false,
+    pending: [],
+    es: null,
+    history: [],
+    historyIndex: -1,
+    files: [],
+    logs: [],
+    search: "",
+    autoScrollOnce: false,
+    cmdHistory: [],
+    player: null,
+    playerTimer: null,
+  };
+
+  /* ============ 工具 ============ */
+  function fmtTime(input) {
+    if (!input) return "";
+    const d = new Date(input);
+    if (isNaN(d.getTime())) return "";
+    return d.toLocaleTimeString("zh-CN", { timeZone: TZ, hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  }
+  function fmtClock() {
+    return new Date().toLocaleTimeString("zh-CN", { timeZone: TZ, hour12: false });
+  }
+  function duration(ms) {
+    if (!ms || ms < 0) return "—";
+    const s = Math.floor(ms / 1000);
+    const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+    if (h > 0) return `${h} 小时 ${m} 分`;
+    if (m > 0) return `${m} 分 ${sec} 秒`;
+    return `${sec} 秒`;
+  }
+  function sizeText(bytes) {
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+    return (bytes / 1024 / 1024).toFixed(2) + " MB";
+  }
+  async function api(path, opts) {
+    const res = await fetch(path, opts);
+    return res.json().catch(() => ({ ok: false, error: `请求失败（HTTP ${res.status}）` }));
+  }
+  function post(path, body) {
+    return api(path, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(body || {}),
+    });
+  }
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+
+  /* ============ 主题 ============ */
+  const THEME_KEY = "cyanqiuper-theme";
+  function applyTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    $("btn-theme").innerHTML = theme === "dark" ? '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M4.6 12H2.4M21.6 12h-2.2M6.3 6.3 4.8 4.8M19.2 19.2l-1.5-1.5M17.7 6.3l1.5-1.5M4.8 19.2l1.5-1.5"/></svg>' : '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.8A8.6 8.6 0 0 1 9.2 3.5a8.7 8.7 0 1 0 11.3 11.3z"/></svg>';
+    $("btn-theme").title = theme === "dark" ? "切换到浅色" : "切换到深色";
+    try {
+      localStorage.setItem(THEME_KEY, theme);
+    } catch {}
+  }
+  function initTheme() {
+    // 支持 ?theme=dark|light 直接指定（便于截图/分享）
+    const q = new URLSearchParams(location.search).get("theme");
+    if (q === "dark" || q === "light") return applyTheme(q);
+    let saved = null;
+    try { saved = localStorage.getItem(THEME_KEY); } catch {}
+    if (!saved) saved = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    applyTheme(saved);
+  }
+  $("btn-theme").onclick = () => {
+    applyTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  };
+
+  /* ============ 状态轮询 ============ */
+  async function refreshStatus() {
+    let s;
+    try {
+      s = await api("/api/status");
+    } catch {
+      setPill("ws", false, "管理端与后端断开");
+      return;
+    }
+    state.status = s;
+    const ws = s.ws || {};
+    const web = s.web || {};
+
+    setPill("ws", !!ws.running, ws.running ? `WebSocket 服务运行中 · 端口 ${ws.port}` : "WebSocket 服务已停止");
+    const sessions = ws.sessionCount ?? 0;
+    setPill("game", sessions > 0, sessions > 0 ? `游戏已连接 × ${sessions}` : "游戏未连接");
+    $("btn-logout").style.display = s.auth ? "" : "none";
+
+    $("st-ws").textContent = ws.running ? "● 运行中" : "○ 已停止";
+    $("st-ws").className = ws.running ? "" : "off";
+    $("st-ws-url").textContent = ws.running ? `ws://127.0.0.1:${ws.port}` : "—";
+    $("st-version").textContent = ws.running ? `${ws.version ?? "—"}` : "—";
+    $("st-session").textContent = sessions > 0 ? `${sessions} 个` + (ws.active ? `（${ws.active.address}）` : "") : "无";
+    $("st-session").className = sessions > 0 ? "" : "off";
+    $("st-encrypted").textContent = sessions > 0 ? (ws.active && ws.active.encrypted ? "✓ 已加密" : "○ 未加密") : "—";
+    $("st-encrypted").className = sessions > 0 && ws.active && ws.active.encrypted ? "" : "off";
+    const origin = ws.active && ws.active.setting ? ws.active.setting.origin : null;
+    $("st-origin").textContent = origin ? `${origin.x}, ${origin.y}, ${origin.z}` : "—";
+    $("st-web").textContent = `${location.host} · 已运行 ${duration(Date.now() - web.startedAt)}`;
+
+    const stats = ws.stats || {};
+    $("n-commands").textContent = stats.commands ?? 0;
+    $("n-blocks").textContent = stats.setblocks ?? 0;
+    $("n-messages").textContent = stats.messages ?? 0;
+    $("n-errors").textContent = stats.errors ?? 0;
+    updateStructureUi(ws);
+    updateGameInfo(ws, web);
+
+    if (ws.active && ws.active.setting) $("block-input").value = ws.active.setting.block;
+
+    $("btn-start").disabled = !!ws.running;
+    $("btn-stop").disabled = !ws.running;
+    $("btn-restart").disabled = !ws.running;
+
+    // 游戏连接地址：优先服务器配置的对外地址，否则按访问域名自动生成
+    const cfg = s.config || {};
+    const wsPort = cfg.wsPort || 11451;
+    const wsUrl = (cfg.publicWsUrl && cfg.publicWsUrl.replace(/\/$/, "")) ||
+      `ws://${location.hostname || "127.0.0.1"}:${wsPort}`;
+    $("connect-cmd").textContent = `/connect ${wsUrl}`;
+  }
+
+  function setPill(kind, on, text) {
+    $("dot-" + kind).className = "dot" + (on ? " on" : "");
+    $("pill-" + kind + "-text").textContent = text;
+  }
+
+  /* ============ 玩家信息 ============ */
+  const DIM_NAMES = { 0: "主世界", 1: "下界", 2: "末地" };
+  async function refreshPlayer(manual) {
+    if (manual) $("player-status").textContent = "查询中…";
+    const r = await post("/api/player", {});
+    if (!r.ok) {
+      state.player = null;
+      $("pl-name").textContent = "—";
+      $("pl-pos").textContent = "—";
+      $("pl-dim").textContent = "—";
+      $("player-status").textContent = r.error || "查询失败";
+      return;
+    }
+    const p = (r.players && r.players[0]) || null;
+    state.player = p;
+    if (!p) {
+      $("pl-name").textContent = "—";
+      $("pl-pos").textContent = "—";
+      $("pl-dim").textContent = "—";
+      $("player-status").textContent = "没有查询到玩家";
+      return;
+    }
+    $("pl-name").textContent = p.name || "当前玩家";
+    const pos = (p.x !== null && p.z !== null) ? `${Number(p.x).toFixed(1)}, ${Number(p.y).toFixed(1)}, ${Number(p.z).toFixed(1)}` : "—";
+    $("pl-pos").textContent = pos;
+    $("pl-dim").textContent = DIM_NAMES[p.dimension] ?? (p.dimension ?? "—");
+    $("player-status").textContent = `最近刷新：${fmtClock()}`;
+    updateGameInfo(state.status && state.status.ws, state.status && state.status.web, p);
+  }
+  $("btn-player").onclick = () => refreshPlayer(true);
+
+  /* ============ 游戏与玩家信息 ============ */
+  function setText(id, value) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = value === null || value === undefined || value === "" ? "—" : String(value);
+  }
+  function updateGameInfo(ws, web, player) {
+    const active = (ws && ws.active) || null;
+    const g = (active && active.game) || null;
+    const p = player || state.player || null;
+    setText("info-client", active ? active.address : null);
+    setText("info-publicip", web && web.publicIp ? web.publicIp : null);
+    setText("info-localip", web && web.localIps && web.localIps.length ? web.localIps.join("，") : null);
+    setText("info-version", g && g.build ? `基岩版 ${g.build}` : null);
+    setText(
+      "info-platform",
+      g ? [g.platform, g.buildPlatform ? `BD${g.buildPlatform}` : null, g.edition].filter(Boolean).join(" / ") : null
+    );
+    setText("info-locale", g && g.locale ? g.locale : null);
+    setText("info-gamemode", g && g.gameMode !== null && g.gameMode !== undefined ? g.gameMode : null);
+    setText(
+      "info-rot",
+      p && p.yRot !== null && p.yRot !== undefined
+        ? `${Number(p.yRot).toFixed(1)}° / ${p.entityId ?? "—"}`
+        : null
+    );
+    setText(
+      "info-session",
+      active ? `${duration(Date.now() - active.connectedAt)} · 加密：${active.encrypted ? "是" : "否"}` : null
+    );
+    setText(
+      "info-ids",
+      g
+        ? [g.uniqueId, g.userId, g.deviceSessionId, g.worldSessionId].filter(Boolean).join(" · ") || null
+        : null
+    );
+    const raw = document.getElementById("info-raw");
+    if (raw) {
+      const data = {
+        客户端地址: active ? active.address : null,
+        服务器公网IP: (web && web.publicIp) || null,
+        本机IP: (web && web.localIps) || [],
+        主机名: (web && web.hostname) || null,
+        系统: (web && web.platform) || null,
+        Node版本: (web && web.nodeVersion) || null,
+        玩家位置: p,
+        游戏上报信息: g ? g.raw || g : null,
+        WS协议版本: ws && ws.version,
+      };
+      raw.textContent = JSON.stringify(data, null, 2);
+    }
+  }
+
+  /* ============ 网易版（机器人事件桥） ============ */
+  let nteState = { status: null, poll: null };
+  async function nteRefresh() {
+    let s;
+    try {
+      s = await api("/api/netease/status");
+    } catch {
+      return;
+    }
+    nteState.status = s;
+    if (!s || !s.ok) {
+      $("nte-status").textContent = s && s.error ? s.error : "网易版服务未启动";
+      return;
+    }
+    const bot = s.bot || {};
+    const ident = bot.identity || {};
+    const pos = bot.position;
+    const bridge = s.bridge || {};
+    const proto = s.protocol || {};
+    const accInfo = (s.account && s.account.configured)
+      ? " · 账号 " + s.account.accountMasked
+      : "";
+    const protoText = proto.bot
+      ? `协议 ${proto.bot}（${proto.botGameVersion || "?"}）`
+      : `协议基线 ${proto.target ?? 898}（${proto.targetGameVersion || "1.21.130"}）`;
+    const protoWarn = proto.level === "error" ? " ⚠ 协议过低" : proto.level === "warn" && proto.bot ? " ⚠ 协议偏低" : "";
+    $("nte-status").textContent = bridge.connected
+      ? `事件桥已连接 · 机器人 ${ident.name || "—"}（uid ${ident.user_id || "—"}）· 服务器 ${ident.server_ip || "—"}:${ident.server_port || "—"} · ${protoText}${protoWarn}${accInfo}`
+      : `事件桥未连接${bridge.error ? "：" + bridge.error : ""} · ${protoText}${protoWarn}${accInfo}`;
+    $("nte-name").textContent = ident.name || "—";
+    $("nte-pos").textContent = pos ? `${Math.floor(pos.x)}, ${Math.floor(pos.y)}, ${Math.floor(pos.z)}` : "—";
+    $("nte-players").textContent = bot.players && bot.players.players ? `${bot.players.count ?? bot.players.players.length} 人` : "—";
+    if (s.pending) {
+      $("nte-info").textContent = `待导入：${s.pending.name} · ${s.pending.size.x}×${s.pending.size.y}×${s.pending.size.z} · ${s.pending.total} 方块`;
+    }
+    const b = s.build;
+    const v = s.verify;
+    const bar = $("nte-bar");
+    if (b) {
+      const pct = b.commands ? Math.min(100, Math.round((b.sent / b.commands) * 100)) : 0;
+      $("nte-progress").textContent = b.done
+        ? `✓ 导入完成：${b.name}（${b.total} 方块 / ${b.commands} 条命令）`
+        : `导入中（步骤 ${b.step || 1}/3 ${b.stepLabel || "放置方块"}）：${b.name} ${pct}%（${b.sent}/${b.commands} 条命令）`;
+      if (bar) bar.style.width = (b.done ? 100 : pct) + "%";
+    } else if (v && v.planned) {
+      $("nte-progress").textContent = v.running
+        ? `完整性检查中：${v.checked}/${v.planned}`
+        : v.remaining
+          ? `⚠ 校验：抽查 ${v.planned} 点，缺失 ${v.missing}，仍有 ${v.remaining} 处缺失`
+          : `✓ 校验通过：抽查 ${v.planned} 点${v.missing ? "，已补齐 " + v.missing + " 处" : ""}`;
+      if (bar) bar.style.width = "100%";
+    } else {
+      $("nte-progress").textContent = "—";
+      if (bar) bar.style.width = "0%";
+    }
+    const pretty = (raw) => {
+      let text = String(raw || "");
+      try {
+        if (text.trim().startsWith("{")) {
+          const j = JSON.parse(text);
+          text = (j.rawtext || []).map((x) => x.text || "").join("");
+        }
+      } catch {}
+      return text.replace(/§[0-9a-fk-or]/gi, "").slice(0, 120);
+    };
+    $("nte-last").textContent = s.lastKick
+      ? `最近断开：${s.lastKick}`
+      : s.lastText
+        ? `最近聊天：${s.lastText.source || "?"}：${pretty(s.lastText.message)}`
+        : "—";
+    $("btn-nte-build").disabled = !bridge.connected || !!(b && !b.done);
+    $("btn-nte-cancel").disabled = !(b && !b.done);
+    $("btn-nte-verify").disabled = !bridge.connected;
+  }
+
+  async function ntePrepare() {
+    const input = document.getElementById("nte-file");
+    const file = input.files && input.files[0];
+    if (!file) {
+      $("nte-info").textContent = "请先选择 .mcstructure 文件";
+      return;
+    }
+    $("nte-info").textContent = `正在上传解析 ${file.name}…`;
+    try {
+      const data = b64FromArrayBuffer(await file.arrayBuffer());
+      const r = await post("/api/netease/prepare", { name: file.name, data });
+      if (!r.ok) {
+        $("nte-info").textContent = "解析失败：" + r.error;
+        return;
+      }
+      $("nte-info").textContent = `已解析：${r.structure.name} · ${r.structure.size.x}×${r.structure.size.y}×${r.structure.size.z} · ${r.structure.total} 方块`;
+      addEntry("网易版解析结构", r);
+    } catch (e) {
+      $("nte-info").textContent = "解析失败：" + (e && e.message ? e.message : e);
+    }
+  }
+
+  async function nteBuild() {
+    const offsetY = Number($("nte-offset").value || 0);
+    const r = await post("/api/netease/build", { offsetY });
+    addEntry("网易版开始导入", r);
+    nteRefresh();
+  }
+
+  async function nteCancel() {
+    const r = await post("/api/netease/cancel", {});
+    addEntry("网易版取消导入", r);
+    nteRefresh();
+  }
+
+  async function nteVerify() {
+    const r = await post("/api/netease/verify", {});
+    addEntry("网易版完整性检查", r);
+    nteRefresh();
+  }
+
+  async function ntePos() {
+    const r = await post("/api/netease/pos", {});
+    if (r.ok) {
+      $("nte-info").textContent = `机器人坐标：${Math.floor(r.x)}, ${Math.floor(r.y)}, ${Math.floor(r.z)}（导入时以此为原点）`;
+    } else {
+      $("nte-info").textContent = "读取坐标失败：" + (r.error || "未知错误");
+    }
+  }
+
+  document.getElementById("btn-nte-prepare").onclick = ntePrepare;
+  document.getElementById("btn-nte-build").onclick = nteBuild;
+  document.getElementById("btn-nte-cancel").onclick = nteCancel;
+  document.getElementById("btn-nte-verify").onclick = nteVerify;
+  document.getElementById("btn-nte-pos").onclick = ntePos;
+  setInterval(nteRefresh, 4000);
+
+  /* ============ 最近命令 ============ */
+  const RECENT_KEY = "cyanqiuper-recent";
+  function loadRecent() {
+    try {
+      const raw = localStorage.getItem(RECENT_KEY);
+      state.cmdHistory = raw ? JSON.parse(raw) : [];
+    } catch {
+      state.cmdHistory = [];
+    }
+    renderRecent();
+  }
+  function pushRecent(code) {
+    state.cmdHistory = [code].concat(state.cmdHistory.filter((c) => c !== code)).slice(0, 8);
+    try {
+      localStorage.setItem(RECENT_KEY, JSON.stringify(state.cmdHistory));
+    } catch {}
+    renderRecent();
+  }
+  function renderRecent() {
+    const box = $("recent-list");
+    if (!state.cmdHistory.length) {
+      box.innerHTML = '<div class="empty">还没有执行过命令</div>';
+      return;
+    }
+    box.innerHTML = state.cmdHistory
+      .map((c) => `<div class="row" data-code="${escapeHtml(c)}" title="点击填入控制台"><span>${escapeHtml(c)}</span></div>`)
+      .join("");
+    box.querySelectorAll(".row").forEach((row) => {
+      row.onclick = () => {
+        $("cmd-input").value = row.dataset.code;
+        $("cmd-input").focus();
+      };
+    });
+  }
+
+  /* ============ 常用方块 ============ */
+  const BLOCKS = [
+    { id: "minecraft:iron_block", label: "铁块", color: "#d8d8d8" },
+    { id: "minecraft:gold_block", label: "金块", color: "#f2c94c" },
+    { id: "minecraft:diamond_block", label: "钻石块", color: "#5bdede" },
+    { id: "minecraft:quartz_block", label: "石英", color: "#efeade" },
+    { id: "minecraft:stone", label: "石头", color: "#8d8d8d" },
+    { id: "minecraft:glass", label: "玻璃", color: "#cfe8f0" },
+    { id: "minecraft:glowstone", label: "萤石", color: "#f3da8a" },
+    { id: "minecraft:sea_lantern", label: "海晶灯", color: "#dff3f0" },
+  ];
+  function renderBlockChips() {
+    $("block-chips").innerHTML = BLOCKS.map(
+      (b) => `<span class="block-chip" data-block="${b.id}"><span class="swatch" style="background:${b.color}"></span>${b.label}</span>`
+    ).join("");
+    $("block-chips").querySelectorAll(".block-chip").forEach((chip) => {
+      chip.onclick = async () => {
+        const block = chip.dataset.block;
+        $("block-input").value = block;
+        const r = await post("/api/setting", { block });
+        addEntry(`setting.block = "${block}"`, r.ok ? { ok: true, result: { text: "已设为默认方块" } } : r);
+      };
+    });
+  }
+
+  /* ============ 结构导入 ============ */
+  function b64FromArrayBuffer(buf) {
+    let binary = "";
+    const bytes = new Uint8Array(buf);
+    const chunk = 0x8000;
+    for (let i = 0; i < bytes.length; i += chunk) {
+      binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+    }
+    return btoa(binary);
+  }
+  function fmtSize(size) {
+    return size ? `${size.x} × ${size.y} × ${size.z}` : "—";
+  }
+  function fmtClock(ts) {
+    if (!ts) return "";
+    return new Date(ts).toLocaleTimeString("zh-CN", {
+      timeZone: "Asia/Shanghai",
+      hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+  }
+  function renderStructureInfo(info) {
+    const el = document.getElementById("structure-info");
+    if (!el) return;
+    if (!info) {
+      el.textContent = "未选择文件";
+      return;
+    }
+    const when = info.uploadedAt ? ` · 上传于 ${fmtClock(info.uploadedAt)}` : "";
+    el.textContent = `${info.name} · 尺寸 ${fmtSize(info.size)} · ${info.total} 方块 · 调色板 ${info.paletteSize} 种${when}`;
+  }
+  async function prepareStructure() {
+    const input = document.getElementById("structure-file");
+    const file = input.files && input.files[0];
+    if (!file) {
+      document.getElementById("structure-info").textContent = "请先选择 .mcstructure 文件";
+      return;
+    }
+    if (file.size > 64 * 1024 * 1024) {
+      document.getElementById("structure-info").textContent = "文件太大（上限约 64MB）";
+      return;
+    }
+    document.getElementById("structure-info").textContent = `正在上传解析 ${file.name}…`;
+    try {
+      const data = b64FromArrayBuffer(await file.arrayBuffer());
+      const r = await post("/api/structure/prepare", { name: file.name, data });
+      if (!r.ok) {
+        document.getElementById("structure-info").textContent = "解析失败：" + r.error;
+        return;
+      }
+      renderStructureInfo(r.structure);
+      addEntry(`结构解析：${r.structure.name}`, {
+        ok: true,
+        result: {
+          text: `${fmtSize(r.structure.size)}，${r.structure.total} 方块，${r.structure.paletteSize} 种方块`,
+        },
+      });
+      refreshStatus();
+    } catch (e) {
+      document.getElementById("structure-info").textContent = "上传失败：" + (e && e.message ? e.message : e);
+    }
+  }
+  let repairedDataB64 = null;
+  let repairedName = "repaired";
+  async function repairStructure() {
+    const input = document.getElementById("structure-file");
+    const file = input.files && input.files[0];
+    const reportEl = document.getElementById("structure-repair-report");
+    const downloadBtn = document.getElementById("btn-structure-download");
+    if (!file) {
+      reportEl.style.display = "block";
+      reportEl.textContent = "请先选择 .mcstructure 文件";
+      return;
+    }
+    if (file.size > 64 * 1024 * 1024) {
+      reportEl.style.display = "block";
+      reportEl.textContent = "文件太大（上限约 64MB）";
+      return;
+    }
+    reportEl.style.display = "block";
+    reportEl.textContent = "正在修补…";
+    downloadBtn.style.display = "none";
+    try {
+      const data = b64FromArrayBuffer(await file.arrayBuffer());
+      const r = await post("/api/structure/repair", { name: file.name, data });
+      if (!r.ok) {
+        repairedDataB64 = null;
+        reportEl.textContent = "修补失败：" + r.error + (r.issues && r.issues.length ? "\n· " + r.issues.join("\n· ") : "");
+        return;
+      }
+      repairedDataB64 = r.data;
+      repairedName = (r.structure && r.structure.name ? r.structure.name : "repaired") + "-repaired";
+      renderStructureInfo(r.structure);
+      reportEl.textContent = r.fixed
+        ? "已修复 " + r.issues.length + " 处问题：\n· " + r.issues.join("\n· ")
+        : "文件本来就规范，无需修补（已生成标准格式副本）";
+      downloadBtn.style.display = "";
+      addEntry("修补结构文件", {
+        ok: true,
+        result: { text: (r.structure ? r.structure.name + "：" : "") + (r.fixed ? "已修复 " + r.issues.length + " 处" : "无需修补") },
+      });
+      refreshStatus();
+    } catch (e) {
+      repairedDataB64 = null;
+      reportEl.textContent = "修补失败：" + (e && e.message ? e.message : e);
+    }
+  }
+  function downloadRepaired() {
+    if (!repairedDataB64) return;
+    const bin = atob(repairedDataB64);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    const blob = new Blob([bytes], { type: "application/octet-stream" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = repairedName + ".mcstructure";
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+  }
+  document.getElementById("btn-structure-repair").onclick = repairStructure;
+  document.getElementById("btn-structure-download").onclick = downloadRepaired;
+
+  async function buildStructure() {
+    const offsetY = Number(document.getElementById("structure-offset").value || 0) || 0;
+    const r = await post("/api/structure/build", { offsetY });
+    if (!r.ok) {
+      addEntry("开始导入结构", r);
+      return;
+    }
+    addEntry("开始导入结构", {
+      ok: true,
+      result: {
+        text: `${r.name}：${r.total} 方块 / ${r.commands} 条命令，原点 ${r.origin.x},${r.origin.y},${r.origin.z}`,
+      },
+    });
+    refreshStatus();
+  }
+  async function cancelStructure() {
+    const r = await post("/api/structure/cancel", {});
+    addEntry("取消结构导入", r.ok ? { ok: true, result: { text: "已取消" } } : r);
+    refreshStatus();
+  }
+  function updateStructureUi(ws) {
+    const st = (ws && ws.structure) || {};
+    const info = st.pending;
+    const b = st.build;
+    if (info) renderStructureInfo(info);
+    const v = st.verify;
+    if (v && v.planned) {
+      const vtext = v.running
+        ? `完整性检查中：${v.checked}/${v.planned}（${v.deep ? "深度" : "快速"}）`
+        : v.remaining
+          ? `⚠ 完整性检查：抽查 ${v.planned} 点，缺失 ${v.missing}，补建后仍有 ${v.remaining} 处缺失`
+          : `✓ 完整性检查通过：抽查 ${v.planned} 点${v.missing ? "，发现并补齐 " + v.missing + " 处缺失" : ""}`;
+      document.getElementById("structure-progress").textContent = vtext;
+    }
+    const bar = document.getElementById("structure-bar");
+    const text = document.getElementById("structure-progress");
+    if (!bar || !text) return;
+    if (b) {
+      const pct = Math.min(100, Math.round((b.placed / Math.max(1, b.total)) * 100));
+      bar.style.width = pct + "%";
+      if (b.done) {
+        if (b.verified) {
+          text.textContent = `✓ 导入完成并校验通过：${b.name}（${b.total} 方块${b.retried ? "，补建 " + b.retried + " 条" : ""}）`;
+        } else {
+          text.textContent = `⚠ 导入完成但校验未通过：${b.name}（${b.failedBlocks ?? 0} 方块失败，可点「补建未完成方块」）`;
+        }
+      } else {
+        text.textContent = `导入中（步骤 ${b.step || 1}/3 ${b.stepLabel || "放置方块"}）：${b.name} ${pct}%（${b.placed}/${b.total} 方块）` + (b.retryRound ? ` · 补建第 ${b.retryRound} 轮` : "");
+      }
+    } else if (info) {
+      bar.style.width = "0%";
+      text.textContent = "已就绪：游戏里先 -pos() 定位，再点「开始生成」";
+    } else {
+      bar.style.width = "0%";
+      text.textContent = "—";
+    }
+  }
+  async function clearStructure() {
+    const r = await post("/api/structure/clear", {});
+    addEntry("移除待生成结构", r.ok ? { ok: true, result: { text: r.removed ? "已移除 " + r.removed : "没有待生成的结构" } } : r);
+    renderStructureInfo(null);
+    refreshStatus();
+  }
+  document.getElementById("btn-structure-clear").onclick = clearStructure;
+  document.getElementById("btn-structure-prepare").onclick = prepareStructure;
+  document.getElementById("btn-structure-build").onclick = buildStructure;
+  async function rebuildStructure() {
+    const info = document.getElementById("structure-repair-report");
+    const r = await post("/api/structure/rebuild", {});
+    if (!r.ok) {
+      addEntry("补建未完成方块", r);
+      return;
+    }
+    addEntry("补建未完成方块", {
+      ok: true,
+      result: { text: r.commands + " 条命令 / " + r.blocks + " 方块" },
+    });
+    refreshStatus();
+  }
+  async function verifyStructure(deep) {
+    const r = await post("/api/structure/verify", { deep });
+    if (!r.ok) {
+      addEntry("完整性检查", r);
+      return;
+    }
+    addEntry("完整性检查", {
+      ok: true,
+      result: { text: (deep ? "深度" : "快速") + "检查已开始，结果见下方状态" },
+    });
+    refreshStatus();
+  }
+  document.getElementById("btn-structure-verify").onclick = () => verifyStructure(false);
+  document.getElementById("btn-structure-verify-deep").onclick = () => verifyStructure(true);
+  document.getElementById("btn-structure-rebuild").onclick = rebuildStructure;
+  document.getElementById("btn-structure-cancel").onclick = cancelStructure;
+
+  /* ============ 日志 ============ */
+  const logList = $("log-list");
+  const SRC_NAMES = { ws: "服务", admin: "管理端" };
+
+  function parseLine(text, fallbackFile) {
+    const m = /^\[([^\]]+)\]\s+\[([^\]]+)\]\s*([\s\S]*)$/.exec(text);
+    if (m) {
+      const tag = m[2];
+      const src = SRC_NAMES[tag] || tag;
+      return { time: m[1], src, msg: m[3], isError: /\[错误\]|\[ERROR\]/.test(m[3]) };
+    }
+    const src = SRC_NAMES[(fallbackFile || "").replace(/\.log$/, "")] || (fallbackFile || "").replace(/\.log$/, "");
+    return { time: "", src, msg: text, isError: /错误|失败/.test(text) };
+  }
+
+  function renderLogs() {
+    const kw = state.search.trim().toLowerCase();
+    logList.innerHTML = "";
+    const lines = state.logs.filter((l) => !kw || l.raw.toLowerCase().includes(kw));
+    if (!lines.length) {
+      logList.innerHTML = `<div class="empty">${state.logs.length ? "没有匹配的日志" : "等待日志…"}</div>`;
+      return;
+    }
+    const frag = document.createDocumentFragment();
+    for (const l of lines) frag.appendChild(buildLogEl(l));
+    logList.appendChild(frag);
+    while (logList.childElementCount > 2000) logList.firstElementChild.remove();
+    if ($("log-scroll").checked) logList.scrollTop = logList.scrollHeight;
+    if (state.autoScrollOnce) { logList.scrollTop = logList.scrollHeight; state.autoScrollOnce = false; }
+  }
+
+  function buildLogEl(l) {
+    const p = parseLine(l.raw, l.file);
+    const el = document.createElement("div");
+    el.className = "log" + (l.file === "admin.log" ? " admin" : "") + (p.isError ? " error" : "") + (l.file === "ws.log" && !p.isError ? " ok" : "");
+    el.innerHTML = '<span class="t"></span><span class="src"></span><span class="msg"></span>';
+    el.querySelector(".t").textContent = fmtTime(p.time);
+    el.querySelector(".src").textContent = p.src;
+    el.querySelector(".msg").textContent = p.msg;
+    return el;
+  }
+
+  function appendLog(file, raw) {
+    state.logs.push({ file, raw });
+    if (state.logs.length > 2000) state.logs.shift();
+    const kw = state.search.trim().toLowerCase();
+    if (kw && !raw.toLowerCase().includes(kw)) return;
+    const empty = $("log-empty");
+    if (empty) empty.remove();
+    logList.appendChild(buildLogEl({ file, raw }));
+    while (logList.childElementCount > 2000) logList.firstElementChild.remove();
+    if ($("log-scroll").checked || state.autoScrollOnce) {
+      logList.scrollTop = logList.scrollHeight;
+      state.autoScrollOnce = false;
+    }
+  }
+
+  function clearView() {
+    state.logs = [];
+    logList.innerHTML = '<div class="empty" id="log-empty">等待日志…</div>';
+  }
+
+  function connectLogs() {
+    if (state.es) {
+      state.es.close();
+      state.es = null;
+    }
+    const es = new EventSource(`/api/logs/stream?file=${encodeURIComponent(state.currentFile)}`);
+    state.es = es;
+    es.onopen = () => { clearView(); state.autoScrollOnce = true; };
+    es.onmessage = (ev) => {
+      let item;
+      try { item = JSON.parse(ev.data); } catch { return; }
+      if (state.paused) {
+        state.pending.push(item);
+        if (state.pending.length > 800) state.pending.shift();
+        return;
+      }
+      appendLog(item.file, item.text);
+    };
+  }
+
+  async function refreshLogFiles() {
+    const r = await api("/api/logs/files");
+    if (!r.ok) return;
+    state.files = r.files || [];
+    const sel = $("log-file");
+    const current = state.currentFile;
+    const options = [{ name: "all", label: "全部日志" }].concat(state.files.map((f) => ({ name: f.name, label: f.name })));
+    sel.innerHTML = options.map((o) => `<option value="${o.name}">${o.label}</option>`).join("");
+    sel.value = options.some((o) => o.name === current) ? current : "all";
+    state.currentFile = sel.value;
+    updateLogInfo();
+  }
+
+  function updateLogInfo() {
+    const sel = $("log-file").value;
+    if (sel === "all") {
+      const total = state.files.reduce((a, f) => a + f.size, 0);
+      const latest = state.files.reduce((a, f) => Math.max(a, f.mtime), 0);
+      $("log-info").textContent = `${state.files.length} 个文件 · 共 ${sizeText(total)}` + (latest ? ` · 最近写入 ${fmtTime(latest)}` : "");
+      return;
+    }
+    const f = state.files.find((x) => x.name === sel);
+    $("log-info").textContent = f ? `${sizeText(f.size)} · 最近写入 ${fmtTime(f.mtime)}` : "—";
+  }
+
+  /* ============ 控制台 ============ */
+  const out = $("console-out");
+  const input = $("cmd-input");
+
+  function addEntry(cmd, result) {
+    const div = document.createElement("div");
+    div.className = "entry";
+    const c = document.createElement("span");
+    c.className = "cmd";
+    c.textContent = cmd;
+    div.appendChild(c);
+    if (result) {
+      const r = document.createElement("span");
+      if (result.ok) {
+        r.className = "res ok";
+        r.textContent = result.result && result.result.text === "undefined" ? "✓ 执行成功" : (result.result ? result.result.text : "✓ 执行成功");
+      } else {
+        r.className = "err";
+        r.textContent = "✕ " + (result.error || "执行失败");
+      }
+      div.appendChild(document.createElement("br"));
+      div.appendChild(r);
+    }
+    out.appendChild(div);
+    while (out.childElementCount > 120) out.firstElementChild.remove();
+    out.scrollTop = out.scrollHeight;
+  }
+
+  async function runCode(code) {
+    if (!code || !code.trim()) return;
+    code = code.trim();
+    state.history.push(code);
+    state.historyIndex = -1;
+    if (code.startsWith("/")) {
+      const r = await post("/api/send", { command: code.slice(1).trim() });
+      addEntry(code, r.ok ? { ok: true, result: { text: "命令已发送" } } : r);
+    } else {
+      const r = await post("/api/command", { code });
+      addEntry(code, r);
+    }
+    pushRecent(code);
+    input.value = "";
+    refreshStatus();
+  }
+
+  $("btn-run").onclick = () => runCode(input.value);
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") { e.preventDefault(); runCode(input.value); return; }
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (!state.history.length) return;
+      if (state.historyIndex === -1) state.historyIndex = state.history.length - 1;
+      else state.historyIndex = Math.max(0, state.historyIndex - 1);
+      input.value = state.history[state.historyIndex] ?? "";
+      return;
+    }
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (state.historyIndex === -1) return;
+      state.historyIndex = Math.min(state.history.length - 1, state.historyIndex + 1);
+      input.value = state.history[state.historyIndex] ?? "";
+    }
+  });
+
+  document.querySelectorAll("[data-code]").forEach((btn) => {
+    btn.onclick = () => runCode(btn.dataset.code);
+  });
+
+  /* ============ 默认方块 ============ */
+  $("btn-block").onclick = async () => {
+    const block = $("block-input").value.trim();
+    if (!block) return;
+    const r = await post("/api/setting", { block });
+    addEntry(`setting.block = "${block}"`, r.ok ? { ok: true, result: { text: "已保存" } } : r);
+    refreshStatus();
+  };
+
+  /* ============ 服务启停 ============ */
+  async function wsAction(action) {
+    const btn = action === "start" ? $("btn-start") : action === "stop" ? $("btn-stop") : $("btn-restart");
+    const old = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = "处理中…";
+    const r = await post("/api/ws/action", { action });
+    btn.textContent = old;
+    addEntry(`WebSocket 服务：${action === "start" ? "启动" : action === "stop" ? "停止" : "重启"}`, r.ok ? { ok: true, result: { text: "完成" } } : r);
+    await refreshStatus();
+    await refreshLogFiles();
+  }
+  $("btn-start").onclick = () => wsAction("start");
+  $("btn-stop").onclick = () => wsAction("stop");
+  $("btn-restart").onclick = () => wsAction("restart");
+
+  /* ============ 复制连接地址 / 退出 ============ */
+  $("btn-copy").onclick = async () => {
+    const text = $("connect-cmd").textContent;
+    try {
+      await navigator.clipboard.writeText(text);
+      $("btn-copy").textContent = "已复制";
+      setTimeout(() => ($("btn-copy").textContent = "复制地址"), 1400);
+    } catch {
+      $("btn-copy").textContent = "复制失败";
+      setTimeout(() => ($("btn-copy").textContent = "复制地址"), 1400);
+    }
+  };
+  $("btn-logout").onclick = async () => {
+    await post("/api/logout", {});
+    location.href = "/";
+  };
+
+  /* ============ 日志工具栏 ============ */
+  $("log-file").onchange = () => {
+    state.currentFile = $("log-file").value;
+    updateLogInfo();
+    connectLogs();
+  };
+  $("log-search").oninput = () => {
+    state.search = $("log-search").value;
+    renderLogs();
+  };
+  $("log-pause").onchange = () => {
+    state.paused = $("log-pause").checked;
+    if (!state.paused) {
+      for (const item of state.pending) appendLog(item.file, item.text);
+      state.pending = [];
+    }
+  };
+  $("log-scroll").onchange = () => {
+    if ($("log-scroll").checked) logList.scrollTop = logList.scrollHeight;
+  };
+  $("btn-log-refresh").onclick = async () => {
+    await refreshLogFiles();
+    connectLogs();
+  };
+  $("btn-log-clear").onclick = async () => {
+    await post("/api/logs/clear", { file: state.currentFile });
+    state.pending = [];
+    clearView();
+    await refreshLogFiles();
+  };
+  $("btn-log-download").onclick = () => {
+    location.href = `/api/logs/download?file=${encodeURIComponent(state.currentFile)}`;
+  };
+
+  /* ============ 启动 ============ */
+  initTheme();
+  renderBlockChips();
+  loadRecent();
+  setInterval(() => ($("clock").textContent = fmtClock()), 1000);
+  refreshStatus();
+  refreshLogFiles().then(connectLogs);
+  setInterval(refreshStatus, 1500);
+  setInterval(refreshLogFiles, 3000);
+  state.playerTimer = setInterval(() => {
+    const ws = state.status && state.status.ws;
+    if (ws && ws.running && (ws.sessionCount || 0) > 0) refreshPlayer(false);
+  }, 10000);
+})();
+</script>
+<script src="/snowluma.js"></script><script src="/pixelart.js"></script>
+<script src="/pixeltext.js"></script><script src="/midiplayer.js"></script><script src="/mp3tomidi.js"></script>
+
+<script>
+(function () {
+  const items = Array.from(document.querySelectorAll(".nav-item"));
+  const pages = Array.from(document.querySelectorAll(".page"));
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  const menuBtn = document.getElementById("menu-btn");
+  function show(pid) {
+    items.forEach(a => a.classList.toggle("active", a.dataset.page === pid));
+    pages.forEach(p => p.classList.toggle("active", p.dataset.page === pid));
+    try { localStorage.setItem("cq-console-page", pid); } catch (e) {}
+    closeSidebar();
+    window.scrollTo(0, 0);
+  }
+  function closeSidebar() { if (sidebar) sidebar.classList.remove("open"); if (overlay) overlay.classList.remove("show"); }
+  items.forEach(a => a.addEventListener("click", () => show(a.dataset.page)));
+  if (menuBtn) menuBtn.addEventListener("click", () => {
+    sidebar.classList.toggle("open");
+    overlay.classList.toggle("show", sidebar.classList.contains("open"));
+  });
+  if (overlay) overlay.addEventListener("click", closeSidebar);
+  let saved = "dashboard";
+  try { saved = localStorage.getItem("cq-console-page") || "dashboard"; } catch (e) {}
+  if (document.querySelector('.nav-item[data-page="' + saved + '"]')) show(saved); else show("dashboard");
+})();
+</script>
+
+</body>
+</html>

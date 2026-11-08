@@ -1,0 +1,75 @@
+{
+  "name": "cyanqiuper",
+  "version": "1.0.3",
+  "description": "CyanQiuper — Minecraft Bedrock structure importer with WebSocket service, web console and CLI. Supports .mcstructure / .litematic / .schem / .schematic / .nbt.",
+  "main": "main.ts",
+  "scripts": {
+    "start": "node bin/cyanqiuper.mjs",
+    "start:ws": "node bin/cyanqiuper.mjs ws",
+    "start:admin": "node bin/cyanqiuper.mjs admin",
+    "start:netease": "node bin/cyanqiuper.mjs netease",
+    "ws": "tsx main.ts",
+    "admin": "tsx admin-server.ts",
+    "cli": "node cli.mjs",
+    "set-password": "node tools/set-password.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Diamond-Minec/CyanQiuper-Builder.git"
+  },
+  "author": "CyanQiuper contributors",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Diamond-Minec/CyanQiuper-Builder/issues"
+  },
+  "homepage": "https://qiuper.blueworkshop.top/home",
+  "dependencies": {
+    "@pureeval/voxel-geometry": "1.2.10",
+    "mcpews": "^4.0.0",
+    "tsx": "^4.20.6"
+  },
+  "bin": {
+    "cyanqiuper": "bin/cyanqiuper.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "minecraft",
+    "bedrock",
+    "mcpe",
+    "structure",
+    "mcstructure",
+    "litematic",
+    "schematic",
+    "fastbuilder",
+    "websocket",
+    "blueprint",
+    "builder",
+    "pixel-art",
+    "netease"
+  ],
+  "files": [
+    "bin/",
+    "main.ts",
+    "admin-server.ts",
+    "netease-service.ts",
+    "site-server.ts",
+    "src/",
+    "admin/",
+    "admin/**",
+    "!admin/auth.json",
+    "!admin/auth.json.bak",
+    "!admin/index.snowluma.bak.html",
+    "cli.mjs",
+    "qiuper-cli.bat",
+    "start.bat",
+    "start.sh",
+    "stop.bat",
+    "README.md",
+    "ADMIN.md",
+    "DEV.md",
+    "docs/",
+    "LICENSE"
+  ]
+}

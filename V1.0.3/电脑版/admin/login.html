@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CyanQiuper 后台管理 · 登录</title>
+<link rel="icon" type="image/png" href="/assets/favicon.png" />
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+<style>
+  :root{ --radius:10px; --mono: ui-monospace, SFMono-Regular, Consolas, "Cascadia Mono", monospace; --accent:#4898A8; --accent-2:#3D8B9B; }
+  html[data-theme="dark"]{
+    --bg:#070707; --panel:#0d0d0d; --line:#232323; --line-2:#2e2e2e;
+    --fg:#f2f2f2; --dim:#a8a8a8; --faint:#5c5c5c; --code-bg:#080808;
+  }
+  html[data-theme="light"]{
+    --bg:#f2f4f5; --panel:#ffffff; --line:#e2e6e9; --line-2:#d2d8dd;
+    --fg:#15191c; --dim:#4c545b; --faint:#8b939a; --code-bg:#fbfcfc;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font:14px/1.55 system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+    display:flex; align-items:center; justify-content:center; padding:24px;
+  }
+  .card{
+    width:100%; max-width:390px; background:var(--panel); border:1px solid var(--line);
+    border-radius:14px; padding:30px 28px 26px;
+  }
+  .logo{display:block; width:210px; max-width:100%; margin:0 auto 6px}
+  .sub{text-align:center; color:var(--faint); font-size:12.5px; letter-spacing:.12em; margin-bottom:24px}
+  .tip{color:var(--faint); font-size:12.5px; margin:0 0 20px; text-align:center}
+  label{display:block; font-size:12px; color:var(--faint); margin-bottom:8px; letter-spacing:.06em}
+  input{
+    width:100%; background:var(--code-bg); border:1px solid var(--line-2); border-radius:8px;
+    padding:11px 13px; font-family:var(--mono); font-size:13px; color:var(--fg); outline:none;
+  }
+  input:focus{border-color:var(--accent)}
+  button{
+    width:100%; margin-top:14px; padding:11px 13px; border-radius:8px; cursor:pointer;
+    background:var(--accent); color:#fff; border:1px solid var(--accent); font-weight:600; font-size:14px;
+  }
+  button:hover{background:var(--accent-2); border-color:var(--accent-2)}
+  button:disabled{opacity:.5; cursor:not-allowed}
+  .err{
+    min-height:20px; margin-top:12px; font-size:12.5px; color:#fff; font-weight:600;
+    background:#b23b3b; border-radius:6px; padding:6px 10px; display:none;
+  }
+  .err.show{display:block}
+  .foot{margin-top:20px; color:var(--faint); font-size:11.5px; font-family:var(--mono); text-align:center}
+  .theme-btn{
+    display:block; margin:14px auto 0; width:auto; padding:5px 12px; background:transparent;
+    color:var(--faint); border:1px solid var(--line-2); border-radius:8px; font-size:12px; font-weight:400; cursor:pointer;
+  }
+  .theme-btn:hover{color:var(--fg); border-color:var(--faint); background:transparent}
+</style>
+  <link rel="stylesheet" href="/astrbot.css" />
+</head>
+<body>
+  <form class="card" id="form" autocomplete="off">
+    <img class="logo" src="/assets/icon.svg" alt="CyanQiuper" />
+    <div class="sub">后台管理</div>
+    <p class="tip">请输入管理员口令</p>
+    <label for="pw">口令</label>
+    <input id="pw" type="password" placeholder="••••••••" autocomplete="current-password" autofocus />
+    <button id="btn" type="submit">进入控制台</button>
+    <div class="err" id="err"></div>
+    <div class="foot">口令以 scrypt 哈希形式保存在服务器，页面与日志中不出现明文</div>
+    <button type="button" class="theme-btn" id="theme">切换主题</button>
+  </form>
+<script>
+(function () {
+  "use strict";
+  const THEME_KEY = "cyanqiuper-theme";
+  const root = document.documentElement;
+  function applyTheme(t) {
+    root.setAttribute("data-theme", t);
+    document.getElementById("theme").textContent = t === "dark" ? "切换到浅色" : "切换到深色";
+    try { localStorage.setItem(THEME_KEY, t); } catch (e) {}
+  }
+  let saved = null;
+  try { saved = localStorage.getItem(THEME_KEY); } catch (e) {}
+  if (!saved) saved = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+  applyTheme(saved);
+  document.getElementById("theme").onclick = function () {
+    applyTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  };
+
+  const form = document.getElementById("form");
+  const pw = document.getElementById("pw");
+  const btn = document.getElementById("btn");
+  const err = document.getElementById("err");
+
+  function showError(text) {
+    err.textContent = text;
+    err.classList.add("show");
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!pw.value) { showError("请输入口令"); return; }
+    btn.disabled = true;
+    btn.textContent = "验证中…";
+    err.classList.remove("show");
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ password: pw.value }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.ok) { location.href = "/"; return; }
+      showError(data.error || (res.status === 429 ? "尝试次数过多，请稍后再试" : "口令错误"));
+    } catch (e) {
+      showError("无法连接服务器");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "进入控制台";
+      pw.select();
+    }
+  });
+})();
+</script>
+</body>
+</html>
